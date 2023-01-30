@@ -27,7 +27,6 @@ docname: draft-lorenzKaestle-MonitoringPluginsInterface-latest
 submissiontype: independent
 number:
 date:
-consensus: true
 v: 3
 area: AREA
 workgroup: The Monitoring Plugins Project
