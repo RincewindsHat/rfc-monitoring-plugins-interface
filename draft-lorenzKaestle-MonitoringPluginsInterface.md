@@ -8,16 +8,16 @@ submissiontype: independent
 number:
 date:
 v: 3
-area: AREA
-workgroup: The Monitoring Plugins Project
+# area: AREA
+# workgroup: The Monitoring Plugins Project
 keyword:
  - monitoring
 venue:
-  group: The Monitoring Plugins Project
-  type: Working Group
-  mail: devel@monitoring-plugins.org
-  arch: https://www.monitoring-plugins.org
-  github: monitoring-plugins/monitoring-plugin-guidelines
+#  group: The Monitoring Plugins Project
+#  type: Working Group
+#  mail: devel@monitoring-plugins.org
+#  arch: https://www.monitoring-plugins.org
+  github: "RincewindsHat/rfc-monitoring-plugins-interface"
 
 author:
  -
