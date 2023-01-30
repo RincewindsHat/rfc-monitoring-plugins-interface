@@ -23,7 +23,7 @@ title: "The Monitoring Plugins Interface"
 abbrev: "MPI"
 category: info
 
-docname: draft-lorenzKästle--MonitoringPluginsInterface-latest
+docname: draft-lorenzKaestle-MonitoringPluginsInterface-latest
 submissiontype: independent
 number:
 date:
