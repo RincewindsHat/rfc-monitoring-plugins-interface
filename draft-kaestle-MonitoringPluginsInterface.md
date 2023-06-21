@@ -120,13 +120,13 @@ Some arguments MUST have this predetermined meaning, if they are used:
 ## Examples
 For the execution with `--help`:
 
-```
+~~~
 $ my_check_plugin --help
-```
+~~~
 
 the output might look like this:
 
-```
+~~~
 my_check_plugin version 3.1.4
 Licensed under the AGPLv1.
 Repository: git.example.com/jdoe/my_check_plugin
@@ -152,7 +152,7 @@ Hello Jane
 
 $ my_check_plugin --greeting Ciao --name Alice
 Ciao Alice
-```
+~~~
 
 This imaginary _Monitoring Plugin_ tries to be really helpful here,
 displays the version, the license and the upstream repository with the help
@@ -160,17 +160,23 @@ displays the version, the license and the upstream repository with the help
 lists the options in an easily readable way and even gives some examples.
 
 For the execution with `--version`
-```
+
+~~~
 $ my_check_plugin --version
-```
+~~~
+
 the output might be a bit shorter:
-```
+
+~~~
 my_check_plugin version 3.1.4
-```
+~~~
+
 or even:
-```
+
+~~~
 3.1.4
-```
+~~~
+
 where both show the necessary information.
 
 # Output of a Monitoring Plugin
@@ -205,7 +211,7 @@ give an user more information about the specific problem.
 It might consist of one or more lines of printable symbols.
 
 Examples:
-```
+~~~
 Remaining space on filesystem "/" is OK
 
 Sensor temperature is within thresholds
@@ -213,9 +219,9 @@ Sensor temperature is within thresholds
 Available Memory is too low
 
 Sensore temperature exceeds thresholds
-```
+~~~
 are OK, but
-```
+~~~
 Remaining space on filesystem "/" is OK ( 62GiB / 128GiB )
 
 Sensor temperature is within thresholds ( 42°C )
@@ -223,7 +229,7 @@ Sensor temperature is within thresholds ( 42°C )
 Available Memory is too low ( 126MiB / 32GiB )
 
 Sensor temperature exceeds thresholds ( 78°C > 70°C )
-```
+~~~
 are better.
 
 Although no strict guidelines for creating this part of the output can really be given, a developer should
