@@ -279,6 +279,23 @@ with the following definitions:
  5. _min_ and _max_ are the minimal respectively the maximal value the _value_ could possibly be. The unit is the same as for _value_.
  These values can be omitted, if the _value_ is a percentage value, since _min_ and _max_ are always `0` and `100` in this case.
 
+# Implementation Status
+
+The interface metioned here is implemented by several network monitoring systems. A non-exhaustive
+list of these systems includes:
+
+ * [Icinga 2](https://icinga.com/)
+ * [Naemon](https://www.naemon.io/)
+ * [Nagios](https://www.nagios.com/)
+
+The other side of the interface is implemented by several different projects, again in an non-exhaustive
+list:
+
+ * [The Monitoring Plugins Project](https://www.monitoring-plugins.org/)
+ * [The Nagios Plugins Project](https://github.com/nagios-plugins/)
+ * [The Linuxfabrik Monitoring Plugins Collection](https://github.com/Linuxfabrik/monitoring-plugins)
+ * [Madrisan Nagios Plugins](https://madrisan.github.io/nagios-plugins-linux/)
+
 
 # Security Considerations
 
