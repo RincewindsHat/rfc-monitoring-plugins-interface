@@ -284,17 +284,17 @@ with the following definitions:
 The interface metioned here is implemented by several network monitoring systems. A non-exhaustive
 list of these systems includes:
 
- * [Icinga 2](https://icinga.com/)
- * [Naemon](https://www.naemon.io/)
- * [Nagios](https://www.nagios.com/)
+ * Icinga 2
+ * Naemon
+ * Nagios
 
 The other side of the interface is implemented by several different projects, again in an non-exhaustive
 list:
 
- * [The Monitoring Plugins Project](https://www.monitoring-plugins.org/)
- * [The Nagios Plugins Project](https://github.com/nagios-plugins/)
- * [The Linuxfabrik Monitoring Plugins Collection](https://github.com/Linuxfabrik/monitoring-plugins)
- * [Madrisan Nagios Plugins](https://madrisan.github.io/nagios-plugins-linux/)
+ * The Monitoring Plugins Project
+ * The Nagios Plugins Project
+ * The Linuxfabrik Monitoring Plugins
+ * Madrisan Nagios Plugins
 
 
 # Security Considerations
