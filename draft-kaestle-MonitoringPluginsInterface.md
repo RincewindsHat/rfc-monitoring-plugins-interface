@@ -3,7 +3,7 @@ title: "The Monitoring Plugins Interface"
 abbrev: "MPI"
 category: info
 
-docname: draft-kaestle-MonitoringPluginsInterface-latest
+docname: draft-kaestle-MonitoringPluginsInterface-00
 submissiontype: independent
 number:
 date:
