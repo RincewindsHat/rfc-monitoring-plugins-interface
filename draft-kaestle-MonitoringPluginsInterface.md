@@ -43,7 +43,7 @@ this as a reference point as to how these programs interface with each other.
 
 With the emergence of NetSaint/Nagios at the latest, this system and their successors/clones
 have relied on a loose group of programs called "Monitoring Plugins" to do the lower level
-task of actually determining the state of particular entity or conduct measurements of certain
+task of actually determining the state of a particular entity or conduct measurements of certain
 values.
 
 This document shall help users and especially developers of those programs as a basis
