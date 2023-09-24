@@ -356,4 +356,9 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+Thanks for previous have to be said to the original inventors of this interface, although
+it is not easy to determine who these persons are, so they are mentioned here in general.
+
+Thanks are going also to the many different implementors on either side of this interface for
+their hard work which allows the use of different components and systems with each other in the
+best spirit of free software.
