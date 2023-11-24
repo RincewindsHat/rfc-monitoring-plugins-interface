@@ -41,20 +41,121 @@ this as a reference point as to how these programs interface with each other.
 
 # Introduction
 
-With the emergence of NetSaint/Nagios at the latest, these system and their successors/forks
+Maintaining computer networks and providing services to machines, networks and humans is
+a complex task.
+Building infrastructures from the start commonly demands huge know-how in different technologies,
+but maintaining them afterwards is in many cases often more demanding.
+Complex system can fail in a multitude of different way, where the original problem might lead
+to symptoms which are often not immediately obvious and likely occur in a different place relative
+to the problem.
+
+To ensure continuous and reliable operation the state and the functionality has to monitored
+permanently with appropriate tools.
+These monitoring tools allow an operator, often a system and/or network administrator to
+read the state of the whole system (or specific subsystems) and detect problems when they
+occur.
+
+The purpose of monitoring tools is therefore to determine the state of the systems in question
+and detect possible anomalies or problems, measuring performance related metrics, process that data,
+produce a human tangible representation and take action according to certain rules,
+notify a system administrator for example.
+A system implementing most or all of those tasks is called a "monitoring system" in the following.
+
+With the emergence of NetSaint/Nagios at the latest, a group of network
+monitoring systems
 have relied on a loose group of programs called "Monitoring Plugins" to do the lower level
 task of actually determining the state of a particular entity or conduct measurements of certain
 values.
 
-This document shall help users and especially developers of those programs as a basis
-on how they should be implemented, how they should work and how they should behave.
-It encourages the standardization of libraries, Monitoring Plugins and Monitoring Systems,
-to reduce the cognitive load on users, administrators and developers, if they work with
+The same interface was implemented by several different monitoring solutions,
+including, without claiming completeness, Icinga, Icinga2, Shinken, Naemon, Centreon
+and Opsview.
+
+On the other side of this interface there are hundreds of individual plugins
+developed by different people in different languages for a multitude of purposes.
+
+Examples for these are:
+ * The monitoring plugins (https://www.monitoring-plugins.org/)
+ * The nagios plugins (https://nagios-plugins.org/)
+ * Several monitoring plugins by Consol (https://labs.consol.de/de/nagios/)
+ * Several monitoring plugins by Linuxfabrik (https://github.com/Linuxfabrik/monitoring-plugins)
+ * Several monitoring plugins by Davide Madrisan (https://github.com/Linuxfabrik/monitoring-plugins)
+
+This document shall serve administrator of those monitoring systems and
+especially developers of these monitoring plugins
+and monitoring systems as a basis
+on how this interface should implemented, how the plugins should work and how they should behave.
+It encourages the standardization of libraries, monitoring plugins and monitoring systems,
+to reduce the cognitive load on administrators and developers, when they work with
 different implementations.
+
+```
+ ┌────────────────────┐
+ │ Visualisation tool ├────────────┐
+ └────────────────────┘     ┌──────┴──────────┐  exec  ┌───────────────────┐
+                            │ Monitoring tool │┄┄┄┄┄┄┄┄│ Monitoring Plugin │
+                            └──────┬──────────┘        └───────────────────┘
+ ┌────────────────────┐            │
+ │ Notification tool  ├────────────┘
+ └────────────────────┘
+```
 
 This document aims to be as general as possible and not to assume a special
 implementation detail, e.g. the programming language, the install mechanism or the monitoring
-system which executes the Monitoring Plugin.
+system which executes the monitoring plugin.
+
+## Wording, Context and Scope
+
+### Wording
+
+#### Monitoring system
+A *monitoring system* is a collection of software components which serve the
+purpose of providing the system administrator of a particular system
+with an overview of the whole system.
+This ideally includes all of the devices, machines and components and their state
+as well as insights on particular components.
+
+Most of the system mentioned here (for example Icinga, Naemon and Nagios) also
+provide a functionality to send notifications to the system administrator
+when something goes wrong, e.g. a particular component does not respond anymore
+or a certain threshold is exceeded.
+
+
+#### Monitoring plugin
+
+A monitoring plugin is a standalone executable, which is executed by the
+monitoring systems to conduct one or multiple tests on behalf of the
+monitoring system.
+
+The monitoring plugin does rely on functionality provided by the operating
+system and is not a builtin of the monitoring system or linked against
+certain components of the monitoring system.
+Therefore it can also be executed manually and independently of a particular
+monitoring system.
+
+The monitoring plugin can therefor be implemented independently of the monitoring
+system, it does not share necessarily share dependencies, the programming language
+or the distribution mechanism or other components with the monitoring system.
+
+The monitoring plugin MAY
+accept parameters in the form of command line arguments, environment variables
+or configuration files (the location of which MAY in turn be given on the
+command line or via environment variable).
+
+The monitoring plugin then proceeds
+to execute its duty and returns the result to the Monitoring System. Part of
+the process of returning the result is the termination of the execution of the
+Monitoring Plugin itself.
+
+### Scope
+
+The scope of this document is limited to the interaction of a monitoring system
+and a monitoring plugin, meaning the interface between them.
+
+It does not attempt to describe the inner workings of a specific implementation
+of either monitoring system or monitoring plugin.
+
+
 
 # Conventions and Definitions
 
@@ -97,15 +198,6 @@ where:
 | 10:20 | < 10 or > 20, (outside the range of {10 .. 20}) |
 | @10:20 | ≥ 10 and ≤ 20, (inside the range of {10 .. 20}) |
 
-
-# The basic Monitoring Plugin usage
-A Monitoring System executes a Monitoring Plugin. The Monitoring Plugin MAY
-accept parameters in the form of command line arguments, environment variables
-or a configuration file (the location of which MAY in turn be given on the
-command line or via environment variable). The Monitoring Plugin then proceeds
-to execute its duty and returns the result to the Monitoring System. Part of
-the process of returning the result is the termination of the execution of the
-Monitoring Plugin itself.
 
 # Input Parameters for a Monitoring Plugin
 A Monitoring Plugin MUST expect input parameters as arguments during
