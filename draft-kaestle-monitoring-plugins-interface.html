@@ -12,24 +12,24 @@ strictly implemented by different network monitoring solutions.
 Implementers and Users of network monitoring solutions, monitoring plugins and libraries can use
 this as a reference point as to how these programs interface with each other. 
     " name="description">
-<meta content="xml2rfc 3.18.0" name="generator">
+<meta content="xml2rfc 3.18.2" name="generator">
 <meta content="monitoring" name="keyword">
 <meta content="draft-kaestle-monitoring-plugins-interface-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.0
-    Python 3.11.5
+  xml2rfc 3.18.2
+    Python 3.11.6
     ConfigArgParse 1.5.3
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.10.0
+    platformdirs 4.0.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.6
+    wcwidth 0.2.10
 -->
 <link href="draft-kaestle-monitoring-plugins-interface.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1028,11 +1028,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">MPI</td>
-<td class="right">September 2023</td>
+<td class="right">November 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Kästle</td>
-<td class="center">Expires 27 March 2024</td>
+<td class="center">Expires 27 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1045,12 +1045,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-kaestle-monitoring-plugins-interface-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-09-24" class="published">24 September 2023</time>
+<time datetime="2023-11-24" class="published">24 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-03-27">27 March 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-27">27 May 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1097,7 +1097,7 @@ this as a reference point as to how these programs interface with each other.<a 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 March 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1124,68 +1124,78 @@ this as a reference point as to how these programs interface with each other.<a 
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-wording-context-and-scope" class="internal xref">Wording, Context and Scope</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.1">
+                    <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="auto internal xref">1.1.1</a>.  <a href="#name-wording" class="internal xref">Wording</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.2">
+                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="auto internal xref">1.1.2</a>.  <a href="#name-scope" class="internal xref">Scope</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-range-expressions" class="internal xref">Range expressions</a></p>
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-range-expressions" class="internal xref">Range expressions</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
-                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+                    <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-the-basic-monitoring-plugin" class="internal xref">The basic Monitoring Plugin usage</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-input-parameters-for-a-moni" class="internal xref">Input Parameters for a Monitoring Plugin</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-input-parameters-for-a-moni" class="internal xref">Input Parameters for a Monitoring Plugin</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-examples-2" class="internal xref">Examples</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-examples-2" class="internal xref">Examples</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-output-of-a-monitoring-plug" class="internal xref">Output of a Monitoring Plugin</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-output-of-a-monitoring-plug" class="internal xref">Output of a Monitoring Plugin</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-exit-code" class="internal xref">Exit Code</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-exit-code" class="internal xref">Exit Code</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-textual-output" class="internal xref">Textual Output</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-textual-output" class="internal xref">Textual Output</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
-                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-human-readable-output" class="internal xref">Human readable output</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-human-readable-output" class="internal xref">Human readable output</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
-                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-performance-data" class="internal xref">Performance data</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
+                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-performance-data" class="internal xref">Performance data</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -1196,18 +1206,126 @@ this as a reference point as to how these programs interface with each other.<a 
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">With the emergence of NetSaint/Nagios at the latest, these system and their successors/forks
+<p id="section-1-1">Maintaining computer networks and providing services to machines, networks and humans is
+a complex task.
+Building infrastructures from the start commonly demands huge know-how in different technologies,
+but maintaining them afterwards is in many cases often more demanding.
+Complex system can fail in a multitude of different way, where the original problem might lead
+to symptoms which are often not immediately obvious and likely occur in a different place relative
+to the problem.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">To ensure continuous and reliable operation the state and the functionality has to monitored
+permanently with appropriate tools.
+These monitoring tools allow an operator, often a system and/or network administrator to
+read the state of the whole system (or specific subsystems) and detect problems when they
+occur.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The purpose of monitoring tools is therefore to determine the state of the systems in question
+and detect possible anomalies or problems, measuring performance related metrics, process that data,
+produce a human tangible representation and take action according to certain rules,
+notify a system administrator for example.
+A system implementing most or all of those tasks is called a "monitoring system" in the following.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">With the emergence of NetSaint/Nagios at the latest, a group of network
+monitoring systems
 have relied on a loose group of programs called "Monitoring Plugins" to do the lower level
 task of actually determining the state of a particular entity or conduct measurements of certain
-values.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">This document shall help users and especially developers of those programs as a basis
-on how they should be implemented, how they should work and how they should behave.
-It encourages the standardization of libraries, Monitoring Plugins and Monitoring Systems,
-to reduce the cognitive load on users, administrators and developers, if they work with
-different implementations.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This document aims to be as general as possible and not to assume a special
+values.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">The same interface was implemented by several different monitoring solutions,
+including, without claiming completeness, Icinga, Icinga2, Shinken, Naemon, Centreon
+and Opsview.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">On the other side of this interface there are hundreds of individual plugins
+developed by different people in different languages for a multitude of purposes.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">Examples for these are:
+ * The monitoring plugins (https://www.monitoring-plugins.org/)
+ * The nagios plugins (https://nagios-plugins.org/)
+ * Several monitoring plugins by Consol (https://labs.consol.de/de/nagios/)
+ * Several monitoring plugins by Linuxfabrik (https://github.com/Linuxfabrik/monitoring-plugins)
+ * Several monitoring plugins by Davide Madrisan (https://github.com/Linuxfabrik/monitoring-plugins)<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8">This document shall serve administrator of those monitoring systems and
+especially developers of these monitoring plugins
+and monitoring systems as a basis
+on how this interface should implemented, how the plugins should work and how they should behave.
+It encourages the standardization of libraries, monitoring plugins and monitoring systems,
+to reduce the cognitive load on administrators and developers, when they work with
+different implementations.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9"><code>
+ ┌────────────────────┐
+ │ Visualisation tool ├────────────┐
+ └────────────────────┘     ┌──────┴──────────┐  exec  ┌───────────────────┐
+                            │ Monitoring tool │┄┄┄┄┄┄┄┄│ Monitoring Plugin │
+                            └──────┬──────────┘        └───────────────────┘
+ ┌────────────────────┐            │
+ │ Notification tool  ├────────────┘
+ └────────────────────┘
+</code><a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-10">This document aims to be as general as possible and not to assume a special
 implementation detail, e.g. the programming language, the install mechanism or the monitoring
-system which executes the Monitoring Plugin.<a href="#section-1-3" class="pilcrow">¶</a></p>
+system which executes the monitoring plugin.<a href="#section-1-10" class="pilcrow">¶</a></p>
+<div id="wording-context-and-scope">
+<section id="section-1.1">
+        <h3 id="name-wording-context-and-scope">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-wording-context-and-scope" class="section-name selfRef">Wording, Context and Scope</a>
+        </h3>
+<div id="wording">
+<section id="section-1.1.1">
+          <h4 id="name-wording">
+<a href="#section-1.1.1" class="section-number selfRef">1.1.1. </a><a href="#name-wording" class="section-name selfRef">Wording</a>
+          </h4>
+<div id="monitoring-system">
+<section id="section-1.1.1.1">
+            <h5 id="name-monitoring-system">
+<a href="#section-1.1.1.1" class="section-number selfRef">1.1.1.1. </a><a href="#name-monitoring-system" class="section-name selfRef">Monitoring system</a>
+            </h5>
+<p id="section-1.1.1.1-1">A <em>monitoring system</em> is a collection of software components which serve the
+purpose of providing the system administrator of a particular system
+with an overview of the whole system.
+This ideally includes all of the devices, machines and components and their state
+as well as insights on particular components.<a href="#section-1.1.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.1-2">Most of the system mentioned here (for example Icinga, Naemon and Nagios) also
+provide a functionality to send notifications to the system administrator
+when something goes wrong, e.g. a particular component does not respond anymore
+or a certain threshold is exceeded.<a href="#section-1.1.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="monitoring-plugin">
+<section id="section-1.1.1.2">
+            <h5 id="name-monitoring-plugin">
+<a href="#section-1.1.1.2" class="section-number selfRef">1.1.1.2. </a><a href="#name-monitoring-plugin" class="section-name selfRef">Monitoring plugin</a>
+            </h5>
+<p id="section-1.1.1.2-1">A monitoring plugin is a standalone executable, which is executed by the
+monitoring systems to conduct one or multiple tests on behalf of the
+monitoring system.<a href="#section-1.1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-2">The monitoring plugin does rely on functionality provided by the operating
+system and is not a builtin of the monitoring system or linked against
+certain components of the monitoring system.
+Therefore it can also be executed manually and independently of a particular
+monitoring system.<a href="#section-1.1.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-3">The monitoring plugin can therefor be implemented independently of the monitoring
+system, it does not share necessarily share dependencies, the programming language
+or the distribution mechanism or other components with the monitoring system.<a href="#section-1.1.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-4">The monitoring plugin <span class="bcp14">MAY</span>
+accept parameters in the form of command line arguments, environment variables
+or configuration files (the location of which <span class="bcp14">MAY</span> in turn be given on the
+command line or via environment variable).<a href="#section-1.1.1.2-4" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-5">The monitoring plugin then proceeds
+to execute its duty and returns the result to the Monitoring System. Part of
+the process of returning the result is the termination of the execution of the
+Monitoring Plugin itself.<a href="#section-1.1.1.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="scope">
+<section id="section-1.1.2">
+          <h4 id="name-scope">
+<a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
+          </h4>
+<p id="section-1.1.2-1">The scope of this document is limited to the interaction of a monitoring system
+and a monitoring plugin, meaning the interface between them.<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-2">It does not attempt to describe the inner workings of a specific implementation
+of either monitoring system or monitoring plugin.<a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1238,20 +1356,26 @@ with the following definition:<a href="#section-2.1-2" class="pilcrow">¶</a></p
 <p id="section-2.1-3"><code>[@][start:][end]</code><a href="#section-2.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.1-4">where:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-2.1-5">
-<li id="section-2.1-5.1">At least <code>start</code> or <code>end</code> <span class="bcp14">MUST</span> be provided.<a href="#section-2.1-5.1" class="pilcrow">¶</a>
+<li id="section-2.1-5.1">
+            <p id="section-2.1-5.1.1">At least <code>start</code> or <code>end</code> <span class="bcp14">MUST</span> be provided.<a href="#section-2.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-2.1-5.2">
-            <code>start</code> &lt;= <code>end</code><a href="#section-2.1-5.2" class="pilcrow">¶</a>
+            <p id="section-2.1-5.2.1"><code>start</code> &lt;= <code>end</code><a href="#section-2.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-2.1-5.3">If <code>start</code> == 0, then <code>start</code> can be omitted.<a href="#section-2.1-5.3" class="pilcrow">¶</a>
+          <li id="section-2.1-5.3">
+            <p id="section-2.1-5.3.1">If <code>start</code> == 0, then <code>start</code> can be omitted.<a href="#section-2.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-2.1-5.4">If <code>end</code> is omitted, it has the "value" of positive infinity.<a href="#section-2.1-5.4" class="pilcrow">¶</a>
+          <li id="section-2.1-5.4">
+            <p id="section-2.1-5.4.1">If <code>end</code> is omitted, it has the "value" of positive infinity.<a href="#section-2.1-5.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-2.1-5.5">Negative infinity can be specified with the tilde character <code>~</code>.<a href="#section-2.1-5.5" class="pilcrow">¶</a>
+          <li id="section-2.1-5.5">
+            <p id="section-2.1-5.5.1">Negative infinity can be specified with the tilde character <code>~</code>.<a href="#section-2.1-5.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-2.1-5.6">If the prefix <code>@</code> IS given, the value exceeds the threshold if it is INSIDE the range between <code>start</code> and <code>end</code> (including the endpoints).<a href="#section-2.1-5.6" class="pilcrow">¶</a>
+          <li id="section-2.1-5.6">
+            <p id="section-2.1-5.6.1">If the prefix <code>@</code> IS given, the value exceeds the threshold if it is INSIDE the range between <code>start</code> and <code>end</code> (including the endpoints).<a href="#section-2.1-5.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-2.1-5.7">If the prefix <code>@</code> is NOT given, the value exceeds the threshold if it is OUTSIDE of the range between <code>start</code> and <code>end</code> (including the endpoints).<a href="#section-2.1-5.7" class="pilcrow">¶</a>
+          <li id="section-2.1-5.7">
+            <p id="section-2.1-5.7.1">If the prefix <code>@</code> is NOT given, the value exceeds the threshold if it is OUTSIDE of the range between <code>start</code> and <code>end</code> (including the endpoints).<a href="#section-2.1-5.7.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 <div id="examples">
@@ -1296,31 +1420,17 @@ with the following definition:<a href="#section-2.1-2" class="pilcrow">¶</a></p
 </div>
 </section>
 </div>
-<div id="the-basic-monitoring-plugin-usage">
-<section id="section-3">
-      <h2 id="name-the-basic-monitoring-plugin">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-the-basic-monitoring-plugin" class="section-name selfRef">The basic Monitoring Plugin usage</a>
-      </h2>
-<p id="section-3-1">A Monitoring System executes a Monitoring Plugin. The Monitoring Plugin <span class="bcp14">MAY</span>
-accept parameters in the form of command line arguments, environment variables
-or a configuration file (the location of which <span class="bcp14">MAY</span> in turn be given on the
-command line or via environment variable). The Monitoring Plugin then proceeds
-to execute its duty and returns the result to the Monitoring System. Part of
-the process of returning the result is the termination of the execution of the
-Monitoring Plugin itself.<a href="#section-3-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="input-parameters-for-a-monitoring-plugin">
-<section id="section-4">
+<section id="section-3">
       <h2 id="name-input-parameters-for-a-moni">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-input-parameters-for-a-moni" class="section-name selfRef">Input Parameters for a Monitoring Plugin</a>
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-input-parameters-for-a-moni" class="section-name selfRef">Input Parameters for a Monitoring Plugin</a>
       </h2>
-<p id="section-4-1">A Monitoring Plugin <span class="bcp14">MUST</span> expect input parameters as arguments during
+<p id="section-3-1">A Monitoring Plugin <span class="bcp14">MUST</span> expect input parameters as arguments during
 execution, if any are needed/expected at all. It <span class="bcp14">MAY</span> accept these parameters
 given as <em>environment variables</em> and it <span class="bcp14">MAY</span> accept them in a configuration file
-(with a default path or a path given via arguments or <em>environment variables</em>).<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">In general positional arguments are strongly discouraged.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">Some arguments <span class="bcp14">MUST</span> have this predetermined meaning, if they are used:<a href="#section-4-3" class="pilcrow">¶</a></p>
+(with a default path or a path given via arguments or <em>environment variables</em>).<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">In general positional arguments are strongly discouraged.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Some arguments <span class="bcp14">MUST</span> have this predetermined meaning, if they are used:<a href="#section-3-3" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
         <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
@@ -1385,18 +1495,18 @@ given as <em>environment variables</em> and it <span class="bcp14">MAY</span> ac
         </tbody>
       </table>
 <div id="examples-1">
-<section id="section-4.1">
+<section id="section-3.1">
         <h3 id="name-examples-2">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-examples-2" class="section-name selfRef">Examples</a>
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-examples-2" class="section-name selfRef">Examples</a>
         </h3>
-<p id="section-4.1-1">For the execution with <code>--help</code>:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.1-2">
+<p id="section-3.1-1">For the execution with <code>--help</code>:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-2">
 <pre>
 $ my_check_plugin --help
-</pre><a href="#section-4.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-3.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-3">the output might look like this:<a href="#section-4.1-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.1-4">
+<p id="section-3.1-3">the output might look like this:<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-4">
 <pre>
 my_check_plugin version 3.1.4
 Licensed under the AGPLv1.
@@ -1423,51 +1533,51 @@ Hello Jane
 
 $ my_check_plugin --greeting Ciao --name Alice
 Ciao Alice
-</pre><a href="#section-4.1-4" class="pilcrow">¶</a>
+</pre><a href="#section-3.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-5">This imaginary Monitoring Plugin tries to be really helpful here, displays
+<p id="section-3.1-5">This imaginary Monitoring Plugin tries to be really helpful here, displays
 the version, the license and the upstream repository with the help (although
 not necessary), has a short description about the purpose, lists the options in
-an easily readable way and even gives some examples.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
-<p id="section-4.1-6">For the execution with <code>--version</code><a href="#section-4.1-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.1-7">
+an easily readable way and even gives some examples.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-6">For the execution with <code>--version</code><a href="#section-3.1-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-7">
 <pre>
 $ my_check_plugin --version
-</pre><a href="#section-4.1-7" class="pilcrow">¶</a>
+</pre><a href="#section-3.1-7" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-8">the output might be a bit shorter:<a href="#section-4.1-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.1-9">
+<p id="section-3.1-8">the output might be a bit shorter:<a href="#section-3.1-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-9">
 <pre>
 my_check_plugin version 3.1.4
-</pre><a href="#section-4.1-9" class="pilcrow">¶</a>
+</pre><a href="#section-3.1-9" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-10">or even:<a href="#section-4.1-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.1-11">
+<p id="section-3.1-10">or even:<a href="#section-3.1-10" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-11">
 <pre>
 3.1.4
-</pre><a href="#section-4.1-11" class="pilcrow">¶</a>
+</pre><a href="#section-3.1-11" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-12">where both show the necessary information.<a href="#section-4.1-12" class="pilcrow">¶</a></p>
+<p id="section-3.1-12">where both show the necessary information.<a href="#section-3.1-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="output-of-a-monitoring-plugin">
-<section id="section-5">
+<section id="section-4">
       <h2 id="name-output-of-a-monitoring-plug">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-output-of-a-monitoring-plug" class="section-name selfRef">Output of a Monitoring Plugin</a>
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-output-of-a-monitoring-plug" class="section-name selfRef">Output of a Monitoring Plugin</a>
       </h2>
-<p id="section-5-1">The output of a Monitoring Plugin consists of two parts on the first level, the
-<em>Exit Code</em> and output in textual form on <em>stdout</em>.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">The output of a Monitoring Plugin consists of two parts on the first level, the
+<em>Exit Code</em> and output in textual form on <em>stdout</em>.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <div id="exit-code">
-<section id="section-5.1">
+<section id="section-4.1">
         <h3 id="name-exit-code">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-exit-code" class="section-name selfRef">Exit Code</a>
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-exit-code" class="section-name selfRef">Exit Code</a>
         </h3>
-<p id="section-5.1-1">The Monitoring Plugin <span class="bcp14">MUST</span> make use of the <em>Exit Code</em> as a
+<p id="section-4.1-1">The Monitoring Plugin <span class="bcp14">MUST</span> make use of the <em>Exit Code</em> as a
 method to communicate a result to the Monitoring System. Since the <em>Exit
 Code</em> is more or less standardized over different systems as an integer number
-with a width of or greater than 8bit, the following mapping is used:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+with a width of or greater than 8bit, the following mapping is used:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-3">
           <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
@@ -1508,41 +1618,41 @@ with a width of or greater than 8bit, the following mapping is used:<a href="#se
 </section>
 </div>
 <div id="textual-output">
-<section id="section-5.2">
+<section id="section-4.2">
         <h3 id="name-textual-output">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-textual-output" class="section-name selfRef">Textual Output</a>
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-textual-output" class="section-name selfRef">Textual Output</a>
         </h3>
-<p id="section-5.2-1">The original purpose of the output on <em>stdout</em> was to provide human readable
+<p id="section-4.2-1">The original purpose of the output on <em>stdout</em> was to provide human readable
 information for the user of the Monitoring System, a way for the Monitoring
 Plugin to communicate further details on what happened. This purpose still
 exists, but was expanded with the, so called, performance data to
 allow the machine readable communication of measured values for further
-processing in the Monitoring System, e.g. for the creation of diagrams.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2-2">Therefore the further explanation is split into <em>human readable output</em> and
-<em>performance data</em>.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+processing in the Monitoring System, e.g. for the creation of diagrams.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">Therefore the further explanation is split into <em>human readable output</em> and
+<em>performance data</em>.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <div id="human-readable-output">
-<section id="section-5.2.1">
+<section id="section-4.2.1">
           <h4 id="name-human-readable-output">
-<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-human-readable-output" class="section-name selfRef">Human readable output</a>
+<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-human-readable-output" class="section-name selfRef">Human readable output</a>
           </h4>
-<p id="section-5.2.1-1">This part of the output should give an user information about the state of the
+<p id="section-4.2.1-1">This part of the output should give an user information about the state of the
 test and, in the case of problems, ideally hint what the origin of the problem
 might be or what the symptoms are. If the test relies on numeric values, this
 might be displayed to give an user more information about the specific problem.
-It might consist of one or more lines of printable symbols.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-2">Although no strict guidelines for creating this part of the output can really
+It might consist of one or more lines of printable symbols.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-2">Although no strict guidelines for creating this part of the output can really
 be given, a developer should keep a potential user in mind. It might, for
 example, be OK to put the output in a single line if there are only one or two
 items of a similar type (think: multiple file systems, multiple sensors, etc.)
 are present, but not if there 10 or 100, although this might present a valid
 use case. If there are several different items exists in the output of the
-Monitoring Plugin they probably <span class="bcp14">SHOULD</span> be given their own line in the output.<a href="#section-5.2.1-2" class="pilcrow">¶</a></p>
+Monitoring Plugin they probably <span class="bcp14">SHOULD</span> be given their own line in the output.<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
 <div id="examples-2">
-<section id="section-5.2.1.1">
+<section id="section-4.2.1.1">
             <h5 id="name-examples-3">
-<a href="#section-5.2.1.1" class="section-number selfRef">5.2.1.1. </a><a href="#name-examples-3" class="section-name selfRef">Examples</a>
+<a href="#section-4.2.1.1" class="section-number selfRef">4.2.1.1. </a><a href="#name-examples-3" class="section-name selfRef">Examples</a>
             </h5>
-<div class="alignLeft art-text artwork" id="section-5.2.1.1-1">
+<div class="alignLeft art-text artwork" id="section-4.2.1.1-1">
 <pre>
 Remaining space on filesystem "/" is OK
 
@@ -1551,10 +1661,10 @@ Sensor temperature is within thresholds
 Available Memory is too low
 
 Sensore temperature exceeds thresholds
-</pre><a href="#section-5.2.1.1-1" class="pilcrow">¶</a>
+</pre><a href="#section-4.2.1.1-1" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2.1.1-2">are OK, but<a href="#section-5.2.1.1-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.2.1.1-3">
+<p id="section-4.2.1.1-2">are OK, but<a href="#section-4.2.1.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2.1.1-3">
 <pre>
 Remaining space on filesystem "/" is OK ( 62GiB / 128GiB )
 
@@ -1563,87 +1673,92 @@ Sensor temperature is within thresholds ( 42°C )
 Available Memory is too low ( 126MiB / 32GiB )
 
 Sensor temperature exceeds thresholds ( 78°C &gt; 70°C )
-</pre><a href="#section-5.2.1.1-3" class="pilcrow">¶</a>
+</pre><a href="#section-4.2.1.1-3" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2.1.1-4">are better.<a href="#section-5.2.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.2.1.1-4">are better.<a href="#section-4.2.1.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="performance-data">
-<section id="section-5.2.2">
+<section id="section-4.2.2">
           <h4 id="name-performance-data">
-<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-performance-data" class="section-name selfRef">Performance data</a>
+<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-performance-data" class="section-name selfRef">Performance data</a>
           </h4>
-<p id="section-5.2.2-1">In addition to the human readable part the output can
+<p id="section-4.2.2-1">In addition to the human readable part the output can
 contain machine readable measurement values. These data points are separated
 from the human readable part by the "|" symbol which is in effect until the end
 of the output. The performance data then <span class="bcp14">MUST</span> consist of space (ASCII 0x20)
-separated single values, these <span class="bcp14">MUST</span> have the following format:<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-2"><code>[']label[']=value[UOM][;warn[;crit[;min[;max]]]]</code><a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-3">with the following definitions:<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.2.2-4">
-<li id="section-5.2.2-4.1">
-              <code>label</code> <span class="bcp14">MUST</span> consist of at least on non-space character, but can otherwise
+separated single values, these <span class="bcp14">MUST</span> have the following format:<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-2"><code>[']label[']=value[UOM][;warn[;crit[;min[;max]]]]</code><a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-3">with the following definitions:<a href="#section-4.2.2-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-4">
+<li id="section-4.2.2-4.1">
+              <p id="section-4.2.2-4.1.1"><code>label</code> <span class="bcp14">MUST</span> consist of at least on non-space character, but can otherwise
     contain any printable characters except for the equals sign (<code>=</code>) or single
-    quotes (<code>'</code>). If it contains spaces, it must be surrounded by single quotes<a href="#section-5.2.2-4.1" class="pilcrow">¶</a>
+    quotes (<code>'</code>). If it contains spaces, it must be surrounded by single quotes<a href="#section-4.2.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.2.2-4.2">
-              <code>value</code> is a numerical value, might be either an integer or a floating
+            <li id="section-4.2.2-4.2">
+              <p id="section-4.2.2-4.2.1"><code>value</code> is a numerical value, might be either an integer or a floating
     point number. Using floating point numbers if the value is really discreet
     <span class="bcp14">SHOULD</span> be avoided. The representation of a floating point number
     <span class="bcp14">SHOULD NOT</span> use the "scientific notation" (e.g. <code>6.02e23</code> or <code>-3e-45</code>),
     since some systems might not be able to parse them correctly. Values
     with a base other then 10 <span class="bcp14">SHOULD</span> be avoided (see below for more information
-    on <code>Byte</code> values).<a href="#section-5.2.2-4.2" class="pilcrow">¶</a>
+    on <code>Byte</code> values).<a href="#section-4.2.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.2.2-4.3">
-              <p id="section-5.2.2-4.3.1"><code>UOM</code> is the <em>Unit of measurement</em> (e.g. "B" for <em>Bytes</em>, "s" for seconds)
- which gives more context to the Monitoring System.<a href="#section-5.2.2-4.3.1" class="pilcrow">¶</a></p>
+            <li id="section-4.2.2-4.3">
+              <p id="section-4.2.2-4.3.1"><code>UOM</code> is the <em>Unit of measurement</em> (e.g. "B" for <em>Bytes</em>, "s" for seconds)
+ which gives more context to the Monitoring System.<a href="#section-4.2.2-4.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.2.2-4.3.2.1">
-                  <p id="section-5.2.2-4.3.2.1.1">The following constraints <span class="bcp14">MUST</span> be applied:<a href="#section-5.2.2-4.3.2.1.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.2.2-4.3.2.1.2">
-<li id="section-5.2.2-4.3.2.1.2.1">An <code>UOM</code> of <code>%</code> <span class="bcp14">MUST</span> be used for percentage values<a href="#section-5.2.2-4.3.2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-4.2.2-4.3.2.1">
+                  <p id="section-4.2.2-4.3.2.1.1">The following constraints <span class="bcp14">MUST</span> be applied:<a href="#section-4.2.2-4.3.2.1.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-4.3.2.1.2">
+<li id="section-4.2.2-4.3.2.1.2.1">
+                      <p id="section-4.2.2-4.3.2.1.2.1.1">An <code>UOM</code> of <code>%</code> <span class="bcp14">MUST</span> be used for percentage values<a href="#section-4.2.2-4.3.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-5.2.2-4.3.2.1.2.2">An <code>UOM</code> of <code>c</code> <span class="bcp14">MUST</span> be used for continuous counters (commonly used
-for the sum of bytes transmitted on an interface)<a href="#section-5.2.2-4.3.2.1.2.2" class="pilcrow">¶</a>
+                    <li id="section-4.2.2-4.3.2.1.2.2">
+                      <p id="section-4.2.2-4.3.2.1.2.2.1">An <code>UOM</code> of <code>c</code> <span class="bcp14">MUST</span> be used for continuous counters (commonly used
+for the sum of bytes transmitted on an interface)<a href="#section-4.2.2-4.3.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   </ol>
 </li>
-                <li class="normal" id="section-5.2.2-4.3.2.2">
-                  <p id="section-5.2.2-4.3.2.2.1">The following recommendations <span class="bcp14">SHOULD</span> be applied:<a href="#section-5.2.2-4.3.2.2.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.2.2-4.3.2.2.2">
-<li id="section-5.2.2-4.3.2.2.2.1">The <code>UOM</code> for <code>Byte</code> values is <code>B</code> and although many systems do
+                <li class="normal" id="section-4.2.2-4.3.2.2">
+                  <p id="section-4.2.2-4.3.2.2.1">The following recommendations <span class="bcp14">SHOULD</span> be applied:<a href="#section-4.2.2-4.3.2.2.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-4.3.2.2.2">
+<li id="section-4.2.2-4.3.2.2.2.1">
+                      <p id="section-4.2.2-4.3.2.2.2.1.1">The <code>UOM</code> for <code>Byte</code> values is <code>B</code> and although many systems do
 understand units like <code>KB</code>,<code>KiB</code>, <code>MB</code>, <code>GB</code>, <code>TB</code> they <span class="bcp14">SHOULD</span> be
 avoided, at the least to avoid the ugly hassle about people
 misinterpreting the <em>base10</em> values as <em>base2</em> values and the other way
-round. This is also a prime example where floating point number <span class="bcp14">SHOULD NOT</span> be used, since there are obviously only integer numbers included.<a href="#section-5.2.2-4.3.2.2.2.1" class="pilcrow">¶</a>
+round. This is also a prime example where floating point number <span class="bcp14">SHOULD NOT</span> be used, since there are obviously only integer numbers included.<a href="#section-4.2.2-4.3.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-5.2.2-4.3.2.2.2.2">The <code>UOM</code> for time is <code>s</code>, meaning seconds, SI-Prefixes (e.g. <code>ms</code> for
-milli seconds) are allowed if necessary or useful.<a href="#section-5.2.2-4.3.2.2.2.2" class="pilcrow">¶</a>
+                    <li id="section-4.2.2-4.3.2.2.2.2">
+                      <p id="section-4.2.2-4.3.2.2.2.2.1">The <code>UOM</code> for time is <code>s</code>, meaning seconds, SI-Prefixes (e.g. <code>ms</code> for
+milli seconds) are allowed if necessary or useful.<a href="#section-4.2.2-4.3.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-5.2.2-4.3.2.2.2.3">In general, SI units and SI prefixes <span class="bcp14">MAY</span> be used as <code>UOM</code> if
+                    <li id="section-4.2.2-4.3.2.2.2.3">
+                      <p id="section-4.2.2-4.3.2.2.2.3.1">In general, SI units and SI prefixes <span class="bcp14">MAY</span> be used as <code>UOM</code> if
 applicable, but the Monitoring System may not understand them correctly
 (mostly in uncommon cases), in that cases appropriate workarounds <span class="bcp14">MAY</span> be
 applied on the side of the Monitoring Plugin. Since the
 values are not intented to be human readable normalized units are
 recommended (e.g. <code>overall_power=14000000000W</code> instead of
-<code>overall_power=14GW</code>)<a href="#section-5.2.2-4.3.2.2.2.3" class="pilcrow">¶</a>
+<code>overall_power=14GW</code>)<a href="#section-4.2.2-4.3.2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-5.2.2-4.3.2.2.2.4">
-                      <code>warn</code> and <code>crit</code> are the threshold values for this measurement, which may
+                    <li id="section-4.2.2-4.3.2.2.2.4">
+                      <p id="section-4.2.2-4.3.2.2.2.4.1"><code>warn</code> and <code>crit</code> are the threshold values for this measurement, which may
 have been given by the user as input, may be hardcoded in the Monitoring
 Plugin or may be retrieved from a file or a device or somewhere else
 during the execution of the Monitoring Plugin. The unit used <span class="bcp14">MUST</span> be
 the same as for <em>value</em>. These values are not simple numbers, but
-range expressions (<a href="#def_range_expression" class="auto internal xref">Section 2.1</a>).<a href="#section-5.2.2-4.3.2.2.2.4" class="pilcrow">¶</a>
+range expressions (<a href="#def_range_expression" class="auto internal xref">Section 2.1</a>).<a href="#section-4.2.2-4.3.2.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-5.2.2-4.3.2.2.2.5">
-                      <code>min</code> and <code>max</code> are the minimal respectively the maximal value the
+                    <li id="section-4.2.2-4.3.2.2.2.5">
+                      <p id="section-4.2.2-4.3.2.2.2.5.1"><code>min</code> and <code>max</code> are the minimal respectively the maximal value the
 <code>value</code> could possibly be. The unit <span class="bcp14">MUST</span> be the same as for <code>value</code>.
 These values can be omitted, if the <code>value</code> is a percentage value,
-since <code>min</code> and <code>max</code> are always <code>0</code> and <code>100</code> in this case.<a href="#section-5.2.2-4.3.2.2.2.5" class="pilcrow">¶</a>
+since <code>min</code> and <code>max</code> are always <code>0</code> and <code>100</code> in this case.<a href="#section-4.2.2-4.3.2.2.2.5.1" class="pilcrow">¶</a></p>
 </li>
                   </ol>
 </li>
@@ -1657,55 +1772,63 @@ since <code>min</code> and <code>max</code> are always <code>0</code> and <code>
 </section>
 </div>
 <div id="implementation-status">
-<section id="section-6">
+<section id="section-5">
       <h2 id="name-implementation-status">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
       </h2>
-<p id="section-6-1">The interface metioned here is implemented by several network monitoring systems. A non-exhaustive
-list of these systems includes:<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">The interface metioned here is implemented by several network monitoring systems. A non-exhaustive
+list of these systems includes:<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6-2.1">Icinga 2<a href="#section-6-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1">Icinga 2<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-2.2">Naemon<a href="#section-6-2.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1">Naemon<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-2.3">Nagios<a href="#section-6-2.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1">Nagios<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-6-3">The other side of the interface is implemented by several different projects, again in an non-exhaustive
-list:<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-5-3">The other side of the interface is implemented by several different projects, again in an non-exhaustive
+list:<a href="#section-5-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6-4.1">The Monitoring Plugins Project<a href="#section-6-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5-4.1">
+          <p id="section-5-4.1.1">The Monitoring Plugins Project<a href="#section-5-4.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-4.2">The Nagios Plugins Project<a href="#section-6-4.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-4.2">
+          <p id="section-5-4.2.1">The Nagios Plugins Project<a href="#section-5-4.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-4.3">The Linuxfabrik Monitoring Plugins<a href="#section-6-4.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-4.3">
+          <p id="section-5-4.3.1">The Linuxfabrik Monitoring Plugins<a href="#section-5-4.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-4.4">Madrisan Nagios Plugins<a href="#section-6-4.4" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-4.4">
+          <p id="section-5-4.4.1">Madrisan Nagios Plugins<a href="#section-5-4.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-7">
+<section id="section-6">
       <h2 id="name-security-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-7-1">Special security considerations are hard to define regarding this topic. Regarding the implementation
+<p id="section-6-1">Special security considerations are hard to define regarding this topic. Regarding the implementation
 of this interface, the usual programming security considerations should apply (e.g. sanitize inputs),
-but the risks and problems regarding security are dependent on the specific implementation and usage.<a href="#section-7-1" class="pilcrow">¶</a></p>
+but the risks and problems regarding security are dependent on the specific implementation and usage.<a href="#section-6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-8">
+<section id="section-7">
       <h2 id="name-iana-considerations">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-8-1">This document has no IANA actions.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">This document has no IANA actions.<a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<section id="section-9">
+<div id="sec-normative-references">
+<section id="section-8">
       <h2 id="name-normative-references">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -1718,6 +1841,7 @@ but the risks and problems regarding security are dependent on the specific impl
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
 <div id="acknowledgments">
 <section id="appendix-A">
       <h2 id="name-acknowledgments">
