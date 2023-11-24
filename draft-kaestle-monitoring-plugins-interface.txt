@@ -136,11 +136,14 @@ Table of Contents
    systems, to reduce the cognitive load on administrators and
    developers, when they work with different implementations.
 
-   ┌────────────────────┐ │ Visualisation tool ├────────────┐
-   └────────────────────┘ ┌──────┴──────────┐ exec ┌───────────────────┐
-   │ Monitoring tool │┄┄┄┄┄┄┄┄│ Monitoring Plugin │ └──────┬──────────┘
-   └───────────────────┘ ┌────────────────────┐ │ │ Notification tool
-   ├────────────┘ └────────────────────┘
+ ┌────────────────────┐
+ │ Visualisation tool ├────────────┐
+ └────────────────────┘     ┌──────┴──────────┐  exec  ┌───────────────────┐
+                            │ Monitoring tool │┄┄┄┄┄┄┄┄│ Monitoring Plugin │
+                            └──────┬──────────┘        └───────────────────┘
+ ┌────────────────────┐            │
+ │ Notification tool  ├────────────┘
+ └────────────────────┘
 
    This document aims to be as general as possible and not to assume a
    special implementation detail, e.g. the programming language, the
