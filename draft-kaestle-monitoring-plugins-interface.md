@@ -89,7 +89,7 @@ It encourages the standardization of libraries, monitoring plugins and monitorin
 to reduce the cognitive load on administrators and developers, when they work with
 different implementations.
 
-```
+~~~
  ┌────────────────────┐
  │ Visualisation tool ├────────────┐
  └────────────────────┘     ┌──────┴──────────┐  exec  ┌───────────────────┐
@@ -98,7 +98,7 @@ different implementations.
  ┌────────────────────┐            │
  │ Notification tool  ├────────────┘
  └────────────────────┘
-```
+~~~
 
 This document aims to be as general as possible and not to assume a special
 implementation detail, e.g. the programming language, the install mechanism or the monitoring
