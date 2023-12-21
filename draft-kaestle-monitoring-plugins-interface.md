@@ -75,11 +75,12 @@ On the other side of this interface there are hundreds of individual plugins
 developed by different people in different languages for a multitude of purposes.
 
 Examples for these are:
- * The monitoring plugins (https://www.monitoring-plugins.org/)
- * The nagios plugins (https://nagios-plugins.org/)
- * Several monitoring plugins by Consol (https://labs.consol.de/de/nagios/)
- * Several monitoring plugins by Linuxfabrik (https://github.com/Linuxfabrik/monitoring-plugins)
- * Several monitoring plugins by Davide Madrisan (https://github.com/Linuxfabrik/monitoring-plugins)
+
+ - The monitoring plugins [](https://www.monitoring-plugins.org/)
+ - The nagios plugins [](https://nagios-plugins.org/)
+ - Several monitoring plugins by Consol [](https://labs.consol.de/de/nagios/)
+ - Several monitoring plugins by Linuxfabrik [](https://github.com/Linuxfabrik/monitoring-plugins)
+ - Several monitoring plugins by Davide Madrisan [](https://github.com/Linuxfabrik/monitoring-plugins)
 
 This document shall serve administrator of those monitoring systems and
 especially developers of these monitoring plugins
