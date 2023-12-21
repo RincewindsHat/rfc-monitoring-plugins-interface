@@ -373,15 +373,15 @@ separated single values, these MUST have the following format:
 with the following definitions:
 
  1. `label` MUST consist of at least on non-space character, but can otherwise
-	contain any printable characters except for the equals sign (`=`) or single
-	quotes (`'`). If it contains spaces, it must be surrounded by single quotes
+    contain any printable characters except for the equals sign (`=`) or single
+    quotes (`'`). If it contains spaces, it must be surrounded by single quotes
  2. `value` is a numerical value, might be either an integer or a floating
-	point number. Using floating point numbers if the value is really discreet
-	SHOULD be avoided. The representation of a floating point number
-	SHOULD NOT use the "scientific notation" (e.g. `6.02e23` or `-3e-45`),
-	since some systems might not be able to parse them correctly. Values
-	with a base other then 10 SHOULD be avoided (see below for more information
-	on `Byte` values).
+    point number. Using floating point numbers if the value is really discreet
+    SHOULD be avoided. The representation of a floating point number
+    SHOULD NOT use the "scientific notation" (e.g. `6.02e23` or `-3e-45`),
+    since some systems might not be able to parse them correctly. Values
+    with a base other then 10 SHOULD be avoided (see below for more information
+    on `Byte` values).
  3. `UOM` is the _Unit of measurement_ (e.g. "B" for _Bytes_, "s" for seconds)
      which gives more context to the Monitoring System.
 
