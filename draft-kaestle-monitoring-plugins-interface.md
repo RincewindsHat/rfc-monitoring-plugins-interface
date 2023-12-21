@@ -90,15 +90,19 @@ It encourages the standardization of libraries, monitoring plugins and monitorin
 to reduce the cognitive load on administrators and developers, when they work with
 different implementations.
 
-~~~
- ┌────────────────────┐
- │ Visualisation tool ├────────────┐
- └────────────────────┘     ┌──────┴──────────┐  exec  ┌───────────────────┐
-                            │ Monitoring tool │┄┄┄┄┄┄┄┄│ Monitoring Plugin │
-                            └──────┬──────────┘        └───────────────────┘
- ┌────────────────────┐            │
- │ Notification tool  ├────────────┘
- └────────────────────┘
+~~~ plantuml
+@startditaa
++--------------------+
+| Visualisation tool +------------+
++--------------------+            |
+                                  |
+                           +-----------------+  exec  +-------------------+
+                           | Monitoring tool +--------+ Monitoring Plugin |
+                           +-----------------+        +-------------------+
++--------------------+            |
+| Notification tool  +------------+
++--------------------+
+@endditaa
 ~~~
 
 This document aims to be as general as possible and not to assume a special
