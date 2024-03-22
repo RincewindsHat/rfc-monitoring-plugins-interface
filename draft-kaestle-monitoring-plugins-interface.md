@@ -361,7 +361,7 @@ max-value = NUMERAL
 
 performance-data-value = label "=" NUMERAL [ UOM ] [ ";" *warning_value [ ";" *critical-value [ ";" min-value [ ";" max-value ]]]]
 
-performance-data = *performance-data-value
+performance-data = *performance-data-value [ " " performance-data-value ]
 
 +~~~
 
