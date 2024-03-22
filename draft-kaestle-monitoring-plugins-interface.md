@@ -90,8 +90,7 @@ It encourages the standardization of libraries, monitoring plugins and monitorin
 to reduce the cognitive load on administrators and developers, when they work with
 different implementations.
 
-~~~ plantuml
-@startditaa
+~~~
 +--------------------+
 | Visualisation tool +------------+
 +--------------------+            |
@@ -102,7 +101,6 @@ different implementations.
 +--------------------+            |
 | Notification tool  +------------+
 +--------------------+
-@endditaa
 ~~~
 
 This document aims to be as general as possible and not to assume a special
