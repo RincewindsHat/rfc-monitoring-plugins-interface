@@ -72,7 +72,7 @@ Table of Contents
    4.  Output of a Monitoring Plugin
      4.1.  Exit Code
      4.2.  Textual Output
-       4.2.1.  Human readable output
+       4.2.1.  Free form output
        4.2.2.  Performance data
    5.  Implementation Status
    6.  Security Considerations
@@ -663,24 +663,25 @@ NUMERAL = ["-"] 1*DIGIT [ "." 1*DIGIT ] ; numerical value, either integer or flo
    to avoid influencing the performance of the monitoring system, also
    some system might limit the output arbitrarily.
 
-   The original purpose of the output on _stdout_ was to provide human
-   readable information for the user of the Monitoring System, a way for
-   the Monitoring Plugin to communicate further details on what happened
-   and what the current state is.  This purpose still exists, but was
-   expanded with the, so called, performance data to allow the machine
-   readable communication of measured values for further processing in
-   the Monitoring System, e.g. for the creation of diagrams.
+   The original purpose of the output on _stdout_ was to provide
+   information for the user of the Monitoring System in a free text
+   form; a way for the Monitoring Plugin to communicate further details
+   on what happened and what the current state is.  This purpose still
+   exists, but was expanded with the, so called, performance data to
+   allow the machine readable communication of measured values for
+   further processing in the Monitoring System, e.g. for the creation of
+   diagrams.
 
-   Therefore the further explanation is split into _human readable
-   output_ and _performance data_. The general schema is the following:
+   Therefore the further explanation is split into _free form output_
+   and _performance data_. The general schema is the following:
 
-output = human-readable-part *1( separator performance-data )
+output = free-form-part *1( separator performance-data )
 
 separator = "|"
 
 unicode-without-separator = %x0A-7B / %x7D-10FFFF ; UTF-8 encoded unicode code point without "|"
 
-human-readable-part = *unicode-without-separator
+free-form-part = *unicode-without-separator
 
 labelchar = %x0A-1f / %x21-10FFFF ; UTF-8 encoded unicode code point without " "
 
@@ -699,7 +700,7 @@ performance-data-value = label "=" NUMERAL *1( UOM ) *1( ";" *1warning_value *1(
 
 performance-data = *performance-data-value *( " " performance-data-value )
 
-4.2.1.  Human readable output
+4.2.1.  Free form output
 
    This part of the output should give an user information about the
    state of the test and, in the case of problems, ideally hint what the
@@ -720,8 +721,8 @@ performance-data = *performance-data-value *( " " performance-data-value )
    exists in the output of the Monitoring Plugin they probably SHOULD be
    given their own line in the output.
 
-   The human readable part is not intented for deep diagnostics, logging
-   or too detailed reports, therefore it should be kept rather short.
+   The free form part is not intented for deep diagnostics, logging or
+   too detailed reports, therefore it should be kept rather short.
 
 4.2.1.1.  Examples
 
@@ -747,13 +748,13 @@ performance-data = *performance-data-value *( " " performance-data-value )
 
 4.2.2.  Performance data
 
-   In addition to the human readable part the output can contain machine
+   In addition to the free form part the output can contain machine
    readable measurement values.
 
    In addition to the format definition earlier, the following contains
-   some best practices:
+   some constaints and best practices:
 
-   1.  label MUST consist of at least on non-space character, but can
+   1.  label MUST consist of at least one non-space character, but can
        otherwise contain any printable characters except for the equals
        sign (=) or single quotes (').  If it contains spaces, it must be
        surrounded by single quotes
@@ -794,7 +795,7 @@ performance-data = *performance-data-value *( " " performance-data-value )
               them correctly (mostly in uncommon cases), in that cases
               appropriate workarounds MAY be applied on the side of the
               Monitoring Plugin.  Since the values are not intented to
-              be human readable normalized units are recommended (e.g.
+              be human readable, normalized units are recommended (e.g.
               overall_power=14000000000W instead of overall_power=14GW)
 
           4.  warn and crit are the threshold values for this
