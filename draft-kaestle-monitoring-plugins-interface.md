@@ -453,7 +453,7 @@ In addition to the human readable part the output can
 contain machine readable measurement values.
 
 In addition to the format definition earlier, the following contains
-some best practices:
+some constaints and best practices:
 
  1. `label` MUST consist of at least on non-space character, but can otherwise
     contain any printable characters except for the equals sign (`=`) or single
