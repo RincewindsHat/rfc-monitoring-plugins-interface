@@ -466,7 +466,7 @@ with the following definitions:
       Plugin or may be retrieved from a file or a device or somewhere else
       during the execution of the Monitoring Plugin. The unit used MUST be
       the same as for _value_. These values are not simple numbers, but
-      range expressions ({{def_range_expression}).
+      range expressions ({{def_range_expression}}).
       5. `min` and `max` are the minimal respectively the maximal value the
       `value` could possibly be. The unit MUST be the same as for `value`.
       These values can be omitted, if the `value` is a percentage value,
