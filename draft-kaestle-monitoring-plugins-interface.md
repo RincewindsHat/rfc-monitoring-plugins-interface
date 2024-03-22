@@ -372,9 +372,9 @@ Therefore the further explanation is split into *human readable output* and
 *performance data*.
 The general schema is the following:
 
-+~~~
+~~~
 
-output = human-readable-part [ separator performance-data ]
+output = human-readable-part *1( separator performance-data )
 
 separator = "|"
 
@@ -395,11 +395,11 @@ critical-value = range-expression
 min-value = NUMERAL
 max-value = NUMERAL
 
-performance-data-value = label "=" NUMERAL [ UOM ] [ ";" *warning_value [ ";" *critical-value [ ";" min-value [ ";" max-value ]]]]
+performance-data-value = label "=" NUMERAL *1( UOM ) *1( ";" *1warning_value *1( ";" *1critical-value *1( ";" *1min-value *1( ";" max-value ))))
 
-performance-data = *performance-data-value [ " " performance-data-value ]
+performance-data = *performance-data-value *( " " performance-data-value )
 
-+~~~
+~~~
 
 ### Human readable output
 
