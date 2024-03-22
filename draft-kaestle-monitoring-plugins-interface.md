@@ -182,7 +182,19 @@ creates a problem in the performance data output, if only scalar values could be
 used. To resolve this situation the _Range expression_ format was introduced,
 with the following definition:
 
-`[@][start:][end]`
+~~~
+range-expression = [direction-switch] bounds
+
+bounds = (lower-bound / upper-bound) / lower-bound upper-bound
+
+direction-switch = "@"
+
+lower-bound = NUMERAL ":"
+
+upper-bound = NUMERAL
+
+NUMERAL = [-] 1*DIGIT [ "." 1*DIGIT ] ; numerical value, either integer or floating point
+~~~
 
 where:
 
