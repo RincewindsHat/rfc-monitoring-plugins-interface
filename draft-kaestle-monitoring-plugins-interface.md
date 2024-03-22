@@ -82,7 +82,7 @@ Examples for these are:
  - Several monitoring plugins by Linuxfabrik [](https://github.com/Linuxfabrik/monitoring-plugins)
  - Several monitoring plugins by Davide Madrisan [](https://github.com/Linuxfabrik/monitoring-plugins)
 
-This document shall serve administrator of those monitoring systems and
+This document shall serve administrators of those monitoring systems and
 especially developers of these monitoring plugins
 and monitoring systems as a basis
 on how this interface should implemented, how the plugins should work and how they should behave.
@@ -125,6 +125,8 @@ provide a functionality to send notifications to the system administrator
 when something goes wrong, e.g. a particular component does not respond anymore
 or a certain threshold is exceeded.
 
+For the purpose of this document a monitoring system is just "the thing that executes a monitoring plugin".
+
 
 #### Monitoring plugin
 
@@ -132,7 +134,7 @@ A monitoring plugin is a standalone executable, which is executed by the
 monitoring systems to conduct one or multiple tests on behalf of the
 monitoring system.
 
-The monitoring plugin does rely on functionality provided by the operating
+The monitoring plugin does not rely on functionality provided by the monitoring
 system and is not a builtin of the monitoring system or linked against
 certain components of the monitoring system.
 Therefore it can also be executed manually and independently of a particular
@@ -155,11 +157,10 @@ Monitoring Plugin itself.
 ### Scope
 
 The scope of this document is limited to the interaction of a monitoring system
-and a monitoring plugin, meaning the interface between them.
+and a monitoring plugin, meaning the interface connecting them.
 
 It does not attempt to describe the inner workings of a specific implementation
 of either monitoring system or monitoring plugin.
-
 
 
 # Conventions and Definitions
@@ -169,8 +170,8 @@ of either monitoring system or monitoring plugin.
 ## Range expressions {#def_range_expression}
 
 In many cases thresholds for metrics mark a certain range of values where the
-values is considered to be good or bad if it is inside or outside. While for
-significant number of metrics a upper (e.g. load on unixoid systems) or lower
+values are considered to be good or bad depending on whether they are inside or outside of this range. For a
+significant number of metrics an upper (e.g. load on unixoid systems) or lower
 (e.g. effective throughput, free space in memory or storage) border might
 suffice, for some it does not, for example a temperature value from a
 temperature sensor should be within certain range (e.g. between 10℃ and 45℃).
@@ -307,9 +308,14 @@ with a width of or greater than 8bit, the following mapping is used:
 
 ## Textual Output
 
+The textual output should consist of printable characters end of this output is marked by EOF.
+There is no length limitation per se, but it a limit of 512kiB would be reasonable and should not
+be exceeded to avoid influencing the performance of the monitoring system, also some system
+might limit the output arbitrarily.
+
 The original purpose of the output on _stdout_ was to provide human readable
 information for the user of the Monitoring System, a way for the Monitoring
-Plugin to communicate further details on what happened. This purpose still
+Plugin to communicate further details on what happened and what the current state is. This purpose still
 exists, but was expanded with the, so called, performance data to
 allow the machine readable communication of measured values for further
 processing in the Monitoring System, e.g. for the creation of diagrams.
@@ -323,7 +329,9 @@ This part of the output should give an user information about the state of the
 test and, in the case of problems, ideally hint what the origin of the problem
 might be or what the symptoms are. If the test relies on numeric values, this
 might be displayed to give an user more information about the specific problem.
-It might consist of one or more lines of printable symbols.
+It might consist of one or more lines (separated by CRLF or LF) of unicode symbols.
+Considering the age and implementation of current systems, restricting the output
+to ASCII characters is a safe choice.
 
 
 Although no strict guidelines for creating this part of the output can really
@@ -333,6 +341,9 @@ items of a similar type (think: multiple file systems, multiple sensors, etc.)
 are present, but not if there 10 or 100, although this might present a valid
 use case. If there are several different items exists in the output of the
 Monitoring Plugin they probably SHOULD be given their own line in the output.
+
+The human readable part is not intented for deep diagnostics, logging or too detailed
+reports, therefore it should be kept rather short.
 
 #### Examples
 
