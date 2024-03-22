@@ -193,7 +193,7 @@ lower-bound = NUMERAL ":"
 
 upper-bound = NUMERAL
 
-NUMERAL = [-] 1*DIGIT [ "." 1*DIGIT ] ; numerical value, either integer or floating point
+NUMERAL = ["-"] 1*DIGIT [ "." 1*DIGIT ] ; numerical value, either integer or floating point
 ~~~
 
 where:
@@ -334,6 +334,36 @@ processing in the Monitoring System, e.g. for the creation of diagrams.
 
 Therefore the further explanation is split into *human readable output* and
 *performance data*.
+The general schema is the following:
+
++~~~
+
+output = human-readable-part [ separator performance-data ]
+
+separator = "|"
+
+unicode-without-separator = %x0A-7B / %x7D-10FFFF ; UTF-8 encoded unicode code point without "|"
+
+human-readable-part = *unicode-without-separator
+
+labelchar = %x0A-1f / %x21-10FFFF ; UTF-8 encoded unicode code point without " "
+
+labelstring-with-space = labelchar ( " " / labelchar ) labelchar ; no spaces at beginning or end
+
+label = 1*labelchar / "'" labelstring-with-space "'" ; if the label contains spaces, surround it with '
+
+UOM = 1*CHAR ; unit of measurement, a common unit specifier like "B" for Bytes or "s" for seconds
+
+warning-value = range-expression
+critical-value = range-expression
+min-value = NUMERAL
+max-value = NUMERAL
+
+performance-data-value = label "=" NUMERAL [ UOM ] [ ";" *warning_value [ ";" *critical-value [ ";" min-value [ ";" max-value ]]]]
+
+performance-data = *performance-data-value
+
++~~~
 
 ### Human readable output
 
