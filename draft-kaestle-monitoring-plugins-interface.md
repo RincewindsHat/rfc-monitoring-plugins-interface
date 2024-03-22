@@ -154,6 +154,42 @@ to execute its duty and returns the result to the Monitoring System. Part of
 the process of returning the result is the termination of the execution of the
 Monitoring Plugin itself.
 
+The execution of a monitoring plugin is typically short lived (in the order of seconds
+or milliseconds) and, while some implementations store some state on non-volatile memory
+to be able to reason over several execution cycles, this is not considered best practice.
+A monitoring plugin can not depend on any information other that which was given by the
+calling monitoring system, since the monitoring system might execute the plugin from a
+different system in the next cycle or switch between multiple systems.
+
+A reasonable approach to thinking about monitoring plugins is to picture a "snapshot"
+of a current state, each execution independent from the others and wholly dependent on the
+input parameters and the "thing" that is to be monitored.
+
+This "thing" which is to be monitored is not, in principle, restricted to any specific aspect
+of IT systems, apart from the restrictions above and the general concept.
+Examples for areas which are difficult to cover whith this approach, are statistical analyses
+of time series data or event monitoring, such as log monitoring.
+However querying system, which are collecting and processing this kind of data, would be
+a valid indirection.
+
+A popular example for this behaviour is the extraction of bandwith usage on most switches.
+Commonly this is only exposed as counters for each network interface, one for outgoing and one
+for incoming bytes.
+The absolute value of bytes is practically useless without knowing the value which was read
+previously and the time difference between the probes.
+In this scenario, different workaround are possible, if the device itself does not provide the rate
+values:
+
+ * The monitoring plugin queries the values several times during its execution cycle with a know
+ time difference between the queries, which allows rate calculation in this (typically) short time
+ frame. Nothing is know effectively about the time between execution cycles.
+ * The monitoring system executes the monitoring plugin with the data and date of the last execution as parameter,
+ which allows for proper rate calculation.
+ * A system queries the devices regularly for the absolute values and stores them. The monitoring
+ plugin then queries this system for the collected values (and timestamps) or directly for a statistical
+ analysis
+
+
 ### Scope
 
 The scope of this document is limited to the interaction of a monitoring system
