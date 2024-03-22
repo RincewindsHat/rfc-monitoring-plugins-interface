@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>The Monitoring Plugins Interface</title>
+<meta content="Lorenz Kästle" name="author">
+<meta content="
+       This document aims to document the Monitoring Plugin Interface, a standard more or less
+strictly implemented by different network monitoring solutions.
+Implementers and Users of network monitoring solutions, monitoring plugins and libraries can use
+this as a reference point as to how these programs interface with each other. 
+    " name="description">
+<meta content="xml2rfc 3.20.1" name="generator">
+<meta content="monitoring" name="keyword">
+<meta content="draft-kaestle-monitoring-plugins-interface-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.20.1
+    Python 3.11.8
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.0
+    intervaltree 3.1.0
+    Jinja2 3.1.2
+    lxml 4.9.3
+    platformdirs 4.2.0
+    pycountry 22.3.5
+    PyYAML 6.0.1
+    requests 2.31.0
+    setuptools 68.2.2
+    six 1.16.0
+    wcwidth 0.2.13
+-->
+<link href="draft-kaestle-monitoring-plugins-interface.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+:is(ol, ul) :is(ol, ul) {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 1;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+}
+dl.olPercent {
+  --indent: 5ch;
+}
+dl > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+dl.olPercent > dt {
+  min-width: calc(var(--indent) - 2ch);
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
+  margin-top: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
+  margin-bottom: 0;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    overflow-x: auto;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  min-width: var(--identifier-width);
+  clear: left;
+  float: left;
+  text-align: right;
+  margin-right: 1ch;
+}
+#identifiers dd {
+  margin: 0;
+  margin-left: calc(1em + var(--identifier-width)) !important;
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 2px 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 10ch;
+  margin-right: 1.5ch;
+}
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
+}
+.references dd {
+  margin-left: 12ch !important;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul :is(p, li) {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">MPI</td>
+<td class="right">March 2024</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Kästle</td>
+<td class="center">Expires 23 September 2024</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-kaestle-monitoring-plugins-interface-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2024-03-22" class="published">22 March 2024</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2024-09-23">23 September 2024</time></dd>
+<dt class="label-authors">Author:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">L. Kästle</div>
+<div class="org">The Monitoring Plugins Project</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">The Monitoring Plugins Interface</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document aims to document the Monitoring Plugin Interface, a standard more or less
+strictly implemented by different network monitoring solutions.
+Implementers and Users of network monitoring solutions, monitoring plugins and libraries can use
+this as a reference point as to how these programs interface with each other.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-kaestle-monitoring-plugins-interface/">https://datatracker.ietf.org/doc/draft-kaestle-monitoring-plugins-interface/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/RincewindsHat/rfc-monitoring-plugins-interface">https://github.com/RincewindsHat/rfc-monitoring-plugins-interface</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 23 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2024 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-wording-context-and-scope" class="internal xref">Wording, Context and Scope</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.1">
+                    <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="auto internal xref">1.1.1</a>.  <a href="#name-wording" class="internal xref">Wording</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.2">
+                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="auto internal xref">1.1.2</a>.  <a href="#name-scope" class="internal xref">Scope</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-range-expressions" class="internal xref">Range expressions</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-input-parameters-for-a-moni" class="internal xref">Input Parameters for a Monitoring Plugin</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-examples-2" class="internal xref">Examples</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-output-of-a-monitoring-plug" class="internal xref">Output of a Monitoring Plugin</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-exit-code" class="internal xref">Exit Code</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-textual-output" class="internal xref">Textual Output</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-free-form-output" class="internal xref">Free form output</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
+                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-performance-data" class="internal xref">Performance data</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">Maintaining computer networks and providing services to machines, networks and humans is
+a complex task.
+Building infrastructures from the start commonly demands huge know-how in different technologies,
+but maintaining them afterwards is in many cases often more demanding.
+Complex system can fail in a multitude of different way, where the original problem might lead
+to symptoms which are often not immediately obvious and likely occur in a different place relative
+to the problem.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">To ensure continuous and reliable operation the state and the functionality has to monitored
+permanently with appropriate tools.
+These monitoring tools allow an operator, often a system and/or network administrator to
+read the state of the whole system (or specific subsystems) and detect problems when they
+occur.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The purpose of monitoring tools is therefore to determine the state of the systems in question
+and detect possible anomalies or problems, measuring performance related metrics, process that data,
+produce a human tangible representation and take action according to certain rules,
+notify a system administrator for example.
+A system implementing most or all of those tasks is called a "monitoring system" in the following.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">With the emergence of NetSaint/Nagios at the latest, a group of network
+monitoring systems
+have relied on a loose group of programs called "Monitoring Plugins" to do the lower level
+task of actually determining the state of a particular entity or conduct measurements of certain
+values.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">The same interface was implemented by several different monitoring solutions,
+including, without claiming completeness, Icinga, Icinga2, Shinken, Naemon, Centreon
+and Opsview.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">On the other side of this interface there are hundreds of individual plugins
+developed by different people in different languages for a multitude of purposes.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">Examples for these are:<a href="#section-1-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-8.1">
+          <p id="section-1-8.1.1">The monitoring plugins <span><a href="https://www.monitoring-plugins.org/">https://www.monitoring-plugins.org/</a></span><a href="#section-1-8.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.2">
+          <p id="section-1-8.2.1">The nagios plugins <span><a href="https://nagios-plugins.org/">https://nagios-plugins.org/</a></span><a href="#section-1-8.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.3">
+          <p id="section-1-8.3.1">Several monitoring plugins by Consol <span><a href="https://labs.consol.de/de/nagios/">https://labs.consol.de/de/nagios/</a></span><a href="#section-1-8.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.4">
+          <p id="section-1-8.4.1">Several monitoring plugins by Linuxfabrik <span><a href="https://github.com/Linuxfabrik/monitoring-plugins">https://github.com/Linuxfabrik/monitoring-plugins</a></span><a href="#section-1-8.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.5">
+          <p id="section-1-8.5.1">Several monitoring plugins by Davide Madrisan <span><a href="https://github.com/Linuxfabrik/monitoring-plugins">https://github.com/Linuxfabrik/monitoring-plugins</a></span><a href="#section-1-8.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-1-9">This document shall serve administrators of those monitoring systems and
+especially developers of these monitoring plugins
+and monitoring systems as a basis
+on how this interface should implemented, how the plugins should work and how they should behave.
+It encourages the standardization of libraries, monitoring plugins and monitoring systems,
+to reduce the cognitive load on administrators and developers, when they work with
+different implementations.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-1-10">
+<pre>
++--------------------+
+| Visualisation tool +------------+
++--------------------+            |
+                                  |
+                           +-----------------+  exec  +-------------------+
+                           | Monitoring tool +--------+ Monitoring Plugin |
+                           +-----------------+        +-------------------+
++--------------------+            |
+| Notification tool  +------------+
++--------------------+
+</pre><a href="#section-1-10" class="pilcrow">¶</a>
+</div>
+<p id="section-1-11">This document aims to be as general as possible and not to assume a special
+implementation detail, e.g. the programming language, the install mechanism or the monitoring
+system which executes the monitoring plugin.<a href="#section-1-11" class="pilcrow">¶</a></p>
+<div id="wording-context-and-scope">
+<section id="section-1.1">
+        <h3 id="name-wording-context-and-scope">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-wording-context-and-scope" class="section-name selfRef">Wording, Context and Scope</a>
+        </h3>
+<div id="wording">
+<section id="section-1.1.1">
+          <h4 id="name-wording">
+<a href="#section-1.1.1" class="section-number selfRef">1.1.1. </a><a href="#name-wording" class="section-name selfRef">Wording</a>
+          </h4>
+<div id="monitoring-system">
+<section id="section-1.1.1.1">
+            <h5 id="name-monitoring-system">
+<a href="#section-1.1.1.1" class="section-number selfRef">1.1.1.1. </a><a href="#name-monitoring-system" class="section-name selfRef">Monitoring system</a>
+            </h5>
+<p id="section-1.1.1.1-1">A <em>monitoring system</em> is a collection of software components which serve the
+purpose of providing the system administrator of a particular system
+with an overview of the whole system.
+This ideally includes all of the devices, machines and components and their state
+as well as insights on particular components.<a href="#section-1.1.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.1-2">Most of the system mentioned here (for example Icinga, Naemon and Nagios) also
+provide a functionality to send notifications to the system administrator
+when something goes wrong, e.g. a particular component does not respond anymore
+or a certain threshold is exceeded.<a href="#section-1.1.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.1-3">For the purpose of this document a monitoring system is just "the thing that executes a monitoring plugin".<a href="#section-1.1.1.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="monitoring-plugin">
+<section id="section-1.1.1.2">
+            <h5 id="name-monitoring-plugin">
+<a href="#section-1.1.1.2" class="section-number selfRef">1.1.1.2. </a><a href="#name-monitoring-plugin" class="section-name selfRef">Monitoring plugin</a>
+            </h5>
+<p id="section-1.1.1.2-1">A monitoring plugin is a standalone executable, which is executed by the
+monitoring systems to conduct one or multiple tests on behalf of the
+monitoring system.<a href="#section-1.1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-2">The monitoring plugin does not rely on functionality provided by the monitoring
+system and is not a builtin of the monitoring system or linked against
+certain components of the monitoring system.
+Therefore it can also be executed manually and independently of a particular
+monitoring system.<a href="#section-1.1.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-3">The monitoring plugin can therefor be implemented independently of the monitoring
+system, it does not share necessarily share dependencies, the programming language
+or the distribution mechanism or other components with the monitoring system.<a href="#section-1.1.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-4">The monitoring plugin <span class="bcp14">MAY</span>
+accept parameters in the form of command line arguments, environment variables
+or configuration files (the location of which <span class="bcp14">MAY</span> in turn be given on the
+command line or via environment variable).<a href="#section-1.1.1.2-4" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-5">The monitoring plugin then proceeds
+to execute its duty and returns the result to the Monitoring System. Part of
+the process of returning the result is the termination of the execution of the
+Monitoring Plugin itself.<a href="#section-1.1.1.2-5" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-6">The execution of a monitoring plugin is typically short lived (in the order of seconds
+or milliseconds) and, while some implementations store some state on non-volatile memory
+to be able to reason over several execution cycles, this is not considered best practice.
+A monitoring plugin can not depend on any information other that which was given by the
+calling monitoring system, since the monitoring system might execute the plugin from a
+different system in the next cycle or switch between multiple systems.<a href="#section-1.1.1.2-6" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-7">A reasonable approach to thinking about monitoring plugins is to picture a "snapshot"
+of a current state, each execution independent from the others and wholly dependent on the
+input parameters and the "thing" that is to be monitored.<a href="#section-1.1.1.2-7" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-8">This "thing" which is to be monitored is not, in principle, restricted to any specific aspect
+of IT systems, apart from the restrictions above and the general concept.
+Examples for areas which are difficult to cover whith this approach, are statistical analyses
+of time series data or event monitoring, such as log monitoring.
+However querying system, which are collecting and processing this kind of data, would be
+a valid indirection.<a href="#section-1.1.1.2-8" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-9">A popular example for this behaviour is the extraction of bandwith usage on most switches.
+Commonly this is only exposed as counters for each network interface, one for outgoing and one
+for incoming bytes.
+The absolute value of bytes is practically useless without knowing the value which was read
+previously and the time difference between the probes.
+In this scenario, different workaround are possible, if the device itself does not provide the rate
+values:<a href="#section-1.1.1.2-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.1.2-10.1">
+                <p id="section-1.1.1.2-10.1.1">The monitoring plugin queries the values several times during its execution cycle with a know
+ time difference between the queries, which allows rate calculation in this (typically) short time
+ frame. Nothing is know effectively about the time between execution cycles.<a href="#section-1.1.1.2-10.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1.1.2-10.2">
+                <p id="section-1.1.1.2-10.2.1">The monitoring system executes the monitoring plugin with the data and date of the last execution as parameter,
+ which allows for proper rate calculation.<a href="#section-1.1.1.2-10.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1.1.2-10.3">
+                <p id="section-1.1.1.2-10.3.1">A system queries the devices regularly for the absolute values and stores them. The monitoring
+ plugin then queries this system for the collected values (and timestamps) or directly for a statistical
+ analysis<a href="#section-1.1.1.2-10.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="scope">
+<section id="section-1.1.2">
+          <h4 id="name-scope">
+<a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
+          </h4>
+<p id="section-1.1.2-1">The scope of this document is limited to the interaction of a monitoring system
+and a monitoring plugin, meaning the interface connecting them.<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-2">It does not attempt to describe the inner workings of a specific implementation
+of either monitoring system or monitoring plugin.<a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<div id="def_range_expression">
+<section id="section-2.1">
+        <h3 id="name-range-expressions">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-range-expressions" class="section-name selfRef">Range expressions</a>
+        </h3>
+<p id="section-2.1-1">In many cases thresholds for metrics mark a certain range of values where the
+values are considered to be good or bad depending on whether they are inside or outside of this range. For a
+significant number of metrics an upper (e.g. load on unixoid systems) or lower
+(e.g. effective throughput, free space in memory or storage) border might
+suffice, for some it does not, for example a temperature value from a
+temperature sensor should be within certain range (e.g. between 10℃ and 45℃).<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-2">Regarding input parameters this might be handled with options like
+<code>--critical-upper-temperature</code> and <code>--critical-lower-temperature</code>, but this
+creates a problem in the performance data output, if only scalar values could be
+used. To resolve this situation the <em>Range expression</em> format was introduced,
+with the following definition:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1-3">
+<pre>
+range-expression = [direction-switch] bounds
+
+bounds = (lower-bound / upper-bound) / lower-bound upper-bound
+
+direction-switch = "@"
+
+lower-bound = NUMERAL ":"
+
+upper-bound = NUMERAL
+
+NUMERAL = ["-"] 1*DIGIT [ "." 1*DIGIT ] ; numerical value, either integer or floating point
+</pre><a href="#section-2.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-2.1-4">where:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.1-5">
+<li id="section-2.1-5.1">
+            <p id="section-2.1-5.1.1">At least <code>start</code> or <code>end</code> <span class="bcp14">MUST</span> be provided.<a href="#section-2.1-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.1-5.2">
+            <p id="section-2.1-5.2.1"><code>start</code> &lt;= <code>end</code><a href="#section-2.1-5.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.1-5.3">
+            <p id="section-2.1-5.3.1">If <code>start</code> == 0, then <code>start</code> can be omitted.<a href="#section-2.1-5.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.1-5.4">
+            <p id="section-2.1-5.4.1">If <code>end</code> is omitted, it has the "value" of positive infinity.<a href="#section-2.1-5.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.1-5.5">
+            <p id="section-2.1-5.5.1">Negative infinity can be specified with the tilde character <code>~</code>.<a href="#section-2.1-5.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.1-5.6">
+            <p id="section-2.1-5.6.1">If the prefix <code>@</code> IS given, the value exceeds the threshold if it is INSIDE the range between <code>start</code> and <code>end</code> (including the endpoints).<a href="#section-2.1-5.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-2.1-5.7">
+            <p id="section-2.1-5.7.1">If the prefix <code>@</code> is NOT given, the value exceeds the threshold if it is OUTSIDE of the range between <code>start</code> and <code>end</code> (including the endpoints).<a href="#section-2.1-5.7.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<div id="examples">
+<section id="section-2.1.1">
+          <h4 id="name-examples">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+          </h4>
+<table class="center" id="table-1">
+            <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Range definition</th>
+                <th class="text-left" rowspan="1" colspan="1">Exceeds threshold if x...</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">10</td>
+                <td class="text-left" rowspan="1" colspan="1">&lt; 0 or &gt; 10, (outside the range of {0 .. 10})</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">10:</td>
+                <td class="text-left" rowspan="1" colspan="1">&lt; 10, (outside {10 .. ∞})</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">~:10</td>
+                <td class="text-left" rowspan="1" colspan="1">&gt; 10, (outside the range of {-∞ .. 10})</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">10:20</td>
+                <td class="text-left" rowspan="1" colspan="1">&lt; 10 or &gt; 20, (outside the range of {10 .. 20})</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">@10:20</td>
+                <td class="text-left" rowspan="1" colspan="1">≥ 10 and ≤ 20, (inside the range of {10 .. 20})</td>
+              </tr>
+            </tbody>
+          </table>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="input-parameters-for-a-monitoring-plugin">
+<section id="section-3">
+      <h2 id="name-input-parameters-for-a-moni">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-input-parameters-for-a-moni" class="section-name selfRef">Input Parameters for a Monitoring Plugin</a>
+      </h2>
+<p id="section-3-1">A Monitoring Plugin <span class="bcp14">MUST</span> expect input parameters as arguments during
+execution, if any are needed/expected at all. It <span class="bcp14">MAY</span> accept these parameters
+given as <em>environment variables</em> and it <span class="bcp14">MAY</span> accept them in a configuration file
+(with a default path or a path given via arguments or <em>environment variables</em>).<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">In general positional arguments are strongly discouraged.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Some arguments <span class="bcp14">MUST</span> have this predetermined meaning, if they are used:<a href="#section-3-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-2">
+        <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Argument (long)</th>
+            <th class="text-left" rowspan="1" colspan="1">Argument (short version, optional)</th>
+            <th class="text-left" rowspan="1" colspan="1">Argument</th>
+            <th class="text-left" rowspan="1" colspan="1">Meaning</th>
+            <th class="text-left" rowspan="1" colspan="1">optional</th>
+            <th class="text-left" rowspan="1" colspan="1">can be given multiple times</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">--help</td>
+            <td class="text-left" rowspan="1" colspan="1">-h</td>
+            <td class="text-left" rowspan="1" colspan="1">None</td>
+            <td class="text-left" rowspan="1" colspan="1">Triggers the help functionality of the Monitoring Plugin, showing the individual parameters and their meaning, examples for usage of the Monitoring Plugin and general remarks about the how and why of the Monitoring Plugin. <span class="bcp14">SHOULD</span> overwrite all other options, meaning, they are ignored if <code>--help</code> is given. The Monitoring Plugin <span class="bcp14">SHOULD</span> exit with state UNKNOWN (3).</td>
+            <td class="text-left" rowspan="1" colspan="1">no</td>
+            <td class="text-left" rowspan="1" colspan="1">-- (makes no difference)</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">--version</td>
+            <td class="text-left" rowspan="1" colspan="1">-V</td>
+            <td class="text-left" rowspan="1" colspan="1">None</td>
+            <td class="text-left" rowspan="1" colspan="1">Shows the version of the Monitoring Plugin to allow users to report errors better and therefore help them and the developers. The Monitoring Plugin <span class="bcp14">SHOULD</span> exit with state UNKNOWN (3).</td>
+            <td class="text-left" rowspan="1" colspan="1">no</td>
+            <td class="text-left" rowspan="1" colspan="1">-- (makes no difference)</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">--timeout</td>
+            <td class="text-left" rowspan="1" colspan="1">-t</td>
+            <td class="text-left" rowspan="1" colspan="1">Integer (meaning seconds) or a time duration string</td>
+            <td class="text-left" rowspan="1" colspan="1">Sets a limit for the time which a Monitoring Plugin is given to execute. This is there to enforce the abortion of the test and improve the reaction time of the Monitoring System (e.g. in bad network conditions it might be helpful to abort the test prematurely and inform the user about that, than trying forever to do something which won't succeed. Or if soft real time constraints are present, a result might be worthless altogether after some time). A sane default is probably 30 seconds, although this depends heavily on the scenario and should be given a thought during development. If the execution is terminated by this timeout, it should exit with state UNKNOWN (3) and (if possible) give some helpful output in which stage of the execution the timeout occurred.</td>
+            <td class="text-left" rowspan="1" colspan="1">no</td>
+            <td class="text-left" rowspan="1" colspan="1">no</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">--hostname</td>
+            <td class="text-left" rowspan="1" colspan="1">-H</td>
+            <td class="text-left" rowspan="1" colspan="1">String, meaning either a DNS nameor an IP address of the targeted system</td>
+            <td class="text-left" rowspan="1" colspan="1">If the Monitoring Plugin targets exactly one other system on the network, this option should be used to tell it which one. If the Monitoring Plugin does its test just locally or the logic does not apply to it, this option is, of course, optional.</td>
+            <td class="text-left" rowspan="1" colspan="1">yes</td>
+            <td class="text-left" rowspan="1" colspan="1">no</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">--verbose</td>
+            <td class="text-left" rowspan="1" colspan="1">-v</td>
+            <td class="text-left" rowspan="1" colspan="1">None</td>
+            <td class="text-left" rowspan="1" colspan="1">Increases the verbosity of the output, thereby breaking the suggested rules about a short and concise output. The intention is to provide more information to a user.</td>
+            <td class="text-left" rowspan="1" colspan="1">yes</td>
+            <td class="text-left" rowspan="1" colspan="1">yes</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">--exit-ok</td>
+            <td class="text-left" rowspan="1" colspan="1"> </td>
+            <td class="text-left" rowspan="1" colspan="1">The Monitoring Plugin exits unconditionally with OK (0). Mostly useful for the purpose of packaging and testing plugins, but might be used to always ignore errors (e.g. to just collect data).</td>
+            <td class="text-left" rowspan="1" colspan="1">yes</td>
+            <td class="text-left" rowspan="1" colspan="1">no</td>
+            <td class="text-left" rowspan="1" colspan="1"> </td>
+          </tr>
+        </tbody>
+      </table>
+<div id="examples-1">
+<section id="section-3.1">
+        <h3 id="name-examples-2">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-examples-2" class="section-name selfRef">Examples</a>
+        </h3>
+<p id="section-3.1-1">For the execution with <code>--help</code>:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-2">
+<pre>
+$ my_check_plugin --help
+</pre><a href="#section-3.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1-3">the output might look like this:<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-4">
+<pre>
+my_check_plugin version 3.1.4
+Licensed under the AGPLv1.
+Repository: git.example.com/jdoe/my_check_plugin
+
+This plugin just says hello. It fails if you don't give it a name.
+
+Usage:
+ my_check_plugin --name NAME [--greeting GREETING]
+
+Options:
+ --help
+   this help
+ --version
+   Shows the version of the plugin
+ --name NAME
+   if given, uses NAME as a name to greet.
+ --greeting GREETING
+   if given, uses GREETING instead of Hello.
+
+Examples:
+$ my_check_plugin --name Jane
+Hello Jane
+
+$ my_check_plugin --greeting Ciao --name Alice
+Ciao Alice
+</pre><a href="#section-3.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1-5">This imaginary Monitoring Plugin tries to be really helpful here, displays
+the version, the license and the upstream repository with the help (although
+not necessary), has a short description about the purpose, lists the options in
+an easily readable way and even gives some examples.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-6">For the execution with <code>--version</code><a href="#section-3.1-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-7">
+<pre>
+$ my_check_plugin --version
+</pre><a href="#section-3.1-7" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1-8">the output might be a bit shorter:<a href="#section-3.1-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-9">
+<pre>
+my_check_plugin version 3.1.4
+</pre><a href="#section-3.1-9" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1-10">or even:<a href="#section-3.1-10" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-11">
+<pre>
+3.1.4
+</pre><a href="#section-3.1-11" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1-12">where both show the necessary information.<a href="#section-3.1-12" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="output-of-a-monitoring-plugin">
+<section id="section-4">
+      <h2 id="name-output-of-a-monitoring-plug">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-output-of-a-monitoring-plug" class="section-name selfRef">Output of a Monitoring Plugin</a>
+      </h2>
+<p id="section-4-1">The output of a Monitoring Plugin consists of two parts on the first level, the
+<em>Exit Code</em> and output in textual form on <em>stdout</em>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="exit-code">
+<section id="section-4.1">
+        <h3 id="name-exit-code">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-exit-code" class="section-name selfRef">Exit Code</a>
+        </h3>
+<p id="section-4.1-1">The Monitoring Plugin <span class="bcp14">MUST</span> make use of the <em>Exit Code</em> as a
+method to communicate a result to the Monitoring System. Since the <em>Exit
+Code</em> is more or less standardized over different systems as an integer number
+with a width of or greater than 8bit, the following mapping is used:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-3">
+          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Exit Code (numerical)</th>
+              <th class="text-left" rowspan="1" colspan="1">Meaning (short)</th>
+              <th class="text-left" rowspan="1" colspan="1">Meaning (extended)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0</td>
+              <td class="text-left" rowspan="1" colspan="1">OK</td>
+              <td class="text-left" rowspan="1" colspan="1">The execution of the Monitoring Plugin proceeded as planned and the tests appeared to function properly and the measured values are within their respective thresholds</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">WARNING</td>
+              <td class="text-left" rowspan="1" colspan="1">The execution of the Monitoring Plugin proceeded as planned and the tests appeared to <em>not</em> function properly or the measured values are <em>not</em> with their respective thresholds. The problem(s) do(es) <em>not</em> seem exceptionally grave though and do(es) <em>not</em> require immediate attention</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">2</td>
+              <td class="text-left" rowspan="1" colspan="1">CRITICAL</td>
+              <td class="text-left" rowspan="1" colspan="1">The execution of the Monitoring Plugin proceeded as planned and the tests appeared to <em>not</em> function properly or the measured values are <em>not</em> with their respective thresholds. The problem(s) <em>do(es)</em> seem exceptionally grave though and <em>do(es)</em> require immediate attention</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">UNKNOWN</td>
+              <td class="text-left" rowspan="1" colspan="1">The execution of the Monitoring Plugin <em>did not</em> proceed as planned. The reasons might be manifold, e.g. missing permissions, missing libraries, no available network connection to the destination, etc.. In summary: The Monitoring Plugin could <em>not</em> determine the state of whatever it should have been checking and can therefore make no reliable statement about it.</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">4-125</td>
+              <td class="text-left" rowspan="1" colspan="1">reserved for future use</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+          </tbody>
+        </table>
+</section>
+</div>
+<div id="textual-output">
+<section id="section-4.2">
+        <h3 id="name-textual-output">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-textual-output" class="section-name selfRef">Textual Output</a>
+        </h3>
+<p id="section-4.2-1">The textual output should consist of printable characters end of this output is marked by EOF.
+There is no length limitation per se, but it a limit of 512kiB would be reasonable and should not
+be exceeded to avoid influencing the performance of the monitoring system, also some system
+might limit the output arbitrarily.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">The original purpose of the output on <em>stdout</em> was to provide information
+for the user of the Monitoring System in a free text form; a way for the Monitoring
+Plugin to communicate further details on what happened and what the current state is. This purpose still
+exists, but was expanded with the, so called, performance data to
+allow the machine readable communication of measured values for further
+processing in the Monitoring System, e.g. for the creation of diagrams.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">Therefore the further explanation is split into <em>free form output</em> and
+<em>performance data</em>.
+The general schema is the following:<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2-4">
+<pre>
+output = free-form-part *1( separator performance-data )
+
+separator = "|"
+
+unicode-without-separator = %x0A-7B / %x7D-10FFFF ; UTF-8 encoded unicode code point without "|"
+
+free-form-part = *unicode-without-separator
+
+labelchar = %x0A-1f / %x21-10FFFF ; UTF-8 encoded unicode code point without " "
+
+labelstring-with-space = labelchar ( " " / labelchar ) labelchar ; no spaces at beginning or end
+
+label = 1*labelchar / "'" labelstring-with-space "'" ; if the label contains spaces, surround it with '
+
+UOM = 1*CHAR ; unit of measurement, a common unit specifier like "B" for Bytes or "s" for seconds
+
+warning-value = range-expression
+critical-value = range-expression
+min-value = NUMERAL
+max-value = NUMERAL
+
+performance-data-value = label "=" NUMERAL *1( UOM ) *1( ";" *1warning_value *1( ";" *1critical-value *1( ";" *1min-value *1( ";" max-value ))))
+
+performance-data = *performance-data-value *( " " performance-data-value )
+
+</pre><a href="#section-4.2-4" class="pilcrow">¶</a>
+</div>
+<div id="free-form-output">
+<section id="section-4.2.1">
+          <h4 id="name-free-form-output">
+<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-free-form-output" class="section-name selfRef">Free form output</a>
+          </h4>
+<p id="section-4.2.1-1">This part of the output should give an user information about the state of the
+test and, in the case of problems, ideally hint what the origin of the problem
+might be or what the symptoms are. If the test relies on numeric values, this
+might be displayed to give an user more information about the specific problem.
+It might consist of one or more lines (separated by CRLF or LF) of unicode symbols.
+Considering the age and implementation of current systems, restricting the output
+to US-ASCII characters is a safe choice.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-2">Although no strict guidelines for creating this part of the output can really
+be given due to its free form character, a developer should keep a potential reader in mind. It might, for
+example, be OK to put the output in a single line if there are only one or two
+items of a similar type (think: multiple file systems, multiple sensors, etc.)
+are present, but not if there 10 or 100, although this might present a valid
+use case. If there are several different items exists in the output of the
+Monitoring Plugin they probably <span class="bcp14">SHOULD</span> be given their own line in the output.<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-3">The free form part is not intented for deep diagnostics, logging or too detailed
+reports, therefore it should be kept rather short.<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
+<div id="examples-2">
+<section id="section-4.2.1.1">
+            <h5 id="name-examples-3">
+<a href="#section-4.2.1.1" class="section-number selfRef">4.2.1.1. </a><a href="#name-examples-3" class="section-name selfRef">Examples</a>
+            </h5>
+<div class="alignLeft art-text artwork" id="section-4.2.1.1-1">
+<pre>
+Remaining space on filesystem "/" is OK
+
+Sensor temperature is within thresholds
+
+Available Memory is too low
+
+Sensore temperature exceeds thresholds
+</pre><a href="#section-4.2.1.1-1" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2.1.1-2">are OK, but<a href="#section-4.2.1.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2.1.1-3">
+<pre>
+Remaining space on filesystem "/" is OK ( 62GiB / 128GiB )
+
+Sensor temperature is within thresholds ( 42°C )
+
+Available Memory is too low ( 126MiB / 32GiB )
+
+Sensor temperature exceeds thresholds ( 78°C &gt; 70°C )
+</pre><a href="#section-4.2.1.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2.1.1-4">are better.<a href="#section-4.2.1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="performance-data">
+<section id="section-4.2.2">
+          <h4 id="name-performance-data">
+<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-performance-data" class="section-name selfRef">Performance data</a>
+          </h4>
+<p id="section-4.2.2-1">In addition to the free form part the output can
+contain machine readable measurement values.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-2">In addition to the format definition earlier, the following contains
+some constaints and best practices:<a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-3">
+<li id="section-4.2.2-3.1">
+              <p id="section-4.2.2-3.1.1"><code>label</code> <span class="bcp14">MUST</span> consist of at least one non-space character, but can otherwise
+contain any printable characters except for the equals sign (<code>=</code>) or single
+quotes (<code>'</code>). If it contains spaces, it must be surrounded by single quotes<a href="#section-4.2.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-4.2.2-3.2">
+              <p id="section-4.2.2-3.2.1"><code>value</code> is a numerical value, might be either an integer or a floating
+point number. Using floating point numbers if the value is really discreet
+<span class="bcp14">SHOULD</span> be avoided. The representation of a floating point number
+<span class="bcp14">SHOULD NOT</span> use the "scientific notation" (e.g. <code>6.02e23</code> or <code>-3e-45</code>),
+since some systems might not be able to parse them correctly. Values
+with a base other then 10 <span class="bcp14">SHOULD</span> be avoided (see below for more information
+on <code>Byte</code> values).<a href="#section-4.2.2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-4.2.2-3.3">
+              <p id="section-4.2.2-3.3.1"><code>UOM</code> is the <em>Unit of measurement</em> (e.g. "B" for <em>Bytes</em>, "s" for seconds)
+ which gives more context to the Monitoring System.<a href="#section-4.2.2-3.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2.2-3.3.2.1">
+                  <p id="section-4.2.2-3.3.2.1.1">The following constraints <span class="bcp14">MUST</span> be applied:<a href="#section-4.2.2-3.3.2.1.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-3.3.2.1.2">
+<li id="section-4.2.2-3.3.2.1.2.1">
+                      <p id="section-4.2.2-3.3.2.1.2.1.1">An <code>UOM</code> of <code>%</code> <span class="bcp14">MUST</span> be used for percentage values<a href="#section-4.2.2-3.3.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-4.2.2-3.3.2.1.2.2">
+                      <p id="section-4.2.2-3.3.2.1.2.2.1">An <code>UOM</code> of <code>c</code> <span class="bcp14">MUST</span> be used for continuous counters (commonly used
+for the sum of bytes transmitted on an interface)<a href="#section-4.2.2-3.3.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  </ol>
+</li>
+                <li class="normal" id="section-4.2.2-3.3.2.2">
+                  <p id="section-4.2.2-3.3.2.2.1">The following recommendations <span class="bcp14">SHOULD</span> be applied:<a href="#section-4.2.2-3.3.2.2.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-3.3.2.2.2">
+<li id="section-4.2.2-3.3.2.2.2.1">
+                      <p id="section-4.2.2-3.3.2.2.2.1.1">The <code>UOM</code> for <code>Byte</code> values is <code>B</code> and although many systems do
+understand units like <code>KB</code>,<code>KiB</code>, <code>MB</code>, <code>GB</code>, <code>TB</code> they <span class="bcp14">SHOULD</span> be
+avoided, at the least to avoid the ugly hassle about people
+misinterpreting the <em>base10</em> values as <em>base2</em> values and the other way
+round. This is also a prime example where floating point number <span class="bcp14">SHOULD NOT</span> be used, since there are obviously only integer numbers included.<a href="#section-4.2.2-3.3.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-4.2.2-3.3.2.2.2.2">
+                      <p id="section-4.2.2-3.3.2.2.2.2.1">The <code>UOM</code> for time is <code>s</code>, meaning seconds, SI-Prefixes (e.g. <code>ms</code> for
+milli seconds) are allowed if necessary or useful.<a href="#section-4.2.2-3.3.2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-4.2.2-3.3.2.2.2.3">
+                      <p id="section-4.2.2-3.3.2.2.2.3.1">In general, SI units and SI prefixes <span class="bcp14">MAY</span> be used as <code>UOM</code> if
+applicable, but the Monitoring System may not understand them correctly
+(mostly in uncommon cases), in that cases appropriate workarounds <span class="bcp14">MAY</span> be
+applied on the side of the Monitoring Plugin. Since the
+values are not intented to be human readable, normalized units are
+recommended (e.g. <code>overall_power=14000000000W</code> instead of
+<code>overall_power=14GW</code>)<a href="#section-4.2.2-3.3.2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-4.2.2-3.3.2.2.2.4">
+                      <p id="section-4.2.2-3.3.2.2.2.4.1"><code>warn</code> and <code>crit</code> are the threshold values for this measurement, which may
+have been given by the user as input, may be hardcoded in the Monitoring
+Plugin or may be retrieved from a file or a device or somewhere else
+during the execution of the Monitoring Plugin. The unit used <span class="bcp14">MUST</span> be
+the same as for <em>value</em>. These values are not simple numbers, but
+range expressions (<a href="#def_range_expression" class="auto internal xref">Section 2.1</a>).<a href="#section-4.2.2-3.3.2.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-4.2.2-3.3.2.2.2.5">
+                      <p id="section-4.2.2-3.3.2.2.2.5.1"><code>min</code> and <code>max</code> are the minimal respectively the maximal value the
+<code>value</code> could possibly be. The unit <span class="bcp14">MUST</span> be the same as for <code>value</code>.
+These values can be omitted, if the <code>value</code> is a percentage value,
+since <code>min</code> and <code>max</code> are always <code>0</code> and <code>100</code> in this case.<a href="#section-4.2.2-3.3.2.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+                  </ol>
+</li>
+              </ul>
+</li>
+          </ol>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="implementation-status">
+<section id="section-5">
+      <h2 id="name-implementation-status">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
+      </h2>
+<p id="section-5-1">The interface metioned here is implemented by several network monitoring systems. A non-exhaustive
+list of these systems includes:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1">Icinga 2<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1">Naemon<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1">Nagios<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-5-3">The other side of the interface is implemented by several different projects, again in an non-exhaustive
+list:<a href="#section-5-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-4.1">
+          <p id="section-5-4.1.1">The Monitoring Plugins Project<a href="#section-5-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-4.2">
+          <p id="section-5-4.2.1">The Nagios Plugins Project<a href="#section-5-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-4.3">
+          <p id="section-5-4.3.1">The Linuxfabrik Monitoring Plugins<a href="#section-5-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-4.4">
+          <p id="section-5-4.4.1">Madrisan Nagios Plugins<a href="#section-5-4.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">Special security considerations are hard to define regarding this topic. Regarding the implementation
+of this interface, the usual programming security considerations should apply (e.g. sanitize inputs),
+but the risks and problems regarding security are dependent on the specific implementation and usage.<a href="#section-6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-7-1">This document has no IANA actions.<a href="#section-7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-normative-references">
+<section id="section-8">
+      <h2 id="name-normative-references">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+      </h2>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+      <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+    <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-A-1">Thanks for previous have to be said to the original inventors of this interface, although
+it is not easy to determine who these persons are, so they are mentioned here in general.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">Thanks are going also to the many different implementors on either side of this interface for
+their hard work which allows the use of different components and systems with each other in the
+best spirit of free software.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Lorenz Kästle</span></div>
+<div dir="auto" class="left"><span class="org">The Monitoring Plugins Project</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:lorenz@vulgrim.de" class="email">lorenz@vulgrim.de</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
