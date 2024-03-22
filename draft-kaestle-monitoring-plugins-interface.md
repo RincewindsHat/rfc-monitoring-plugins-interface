@@ -359,26 +359,26 @@ There is no length limitation per se, but it a limit of 512kiB would be reasonab
 be exceeded to avoid influencing the performance of the monitoring system, also some system
 might limit the output arbitrarily.
 
-The original purpose of the output on _stdout_ was to provide human readable
-information for the user of the Monitoring System, a way for the Monitoring
+The original purpose of the output on _stdout_ was to provide information
+for the user of the Monitoring System in a free text form; a way for the Monitoring
 Plugin to communicate further details on what happened and what the current state is. This purpose still
 exists, but was expanded with the, so called, performance data to
 allow the machine readable communication of measured values for further
 processing in the Monitoring System, e.g. for the creation of diagrams.
 
-Therefore the further explanation is split into *human readable output* and
+Therefore the further explanation is split into *free form output* and
 *performance data*.
 The general schema is the following:
 
 ~~~
 
-output = human-readable-part *1( separator performance-data )
+output = free-form-part *1( separator performance-data )
 
 separator = "|"
 
 unicode-without-separator = %x0A-7B / %x7D-10FFFF ; UTF-8 encoded unicode code point without "|"
 
-human-readable-part = *unicode-without-separator
+free-form-part = *unicode-without-separator
 
 labelchar = %x0A-1f / %x21-10FFFF ; UTF-8 encoded unicode code point without " "
 
@@ -399,7 +399,7 @@ performance-data = *performance-data-value *( " " performance-data-value )
 
 ~~~
 
-### Human readable output
+### Free form output
 
 This part of the output should give an user information about the state of the
 test and, in the case of problems, ideally hint what the origin of the problem
@@ -409,7 +409,6 @@ It might consist of one or more lines (separated by CRLF or LF) of unicode symbo
 Considering the age and implementation of current systems, restricting the output
 to US-ASCII characters is a safe choice.
 
-
 Although no strict guidelines for creating this part of the output can really
 be given due to its free form character, a developer should keep a potential reader in mind. It might, for
 example, be OK to put the output in a single line if there are only one or two
@@ -418,7 +417,7 @@ are present, but not if there 10 or 100, although this might present a valid
 use case. If there are several different items exists in the output of the
 Monitoring Plugin they probably SHOULD be given their own line in the output.
 
-The human readable part is not intented for deep diagnostics, logging or too detailed
+The free form part is not intented for deep diagnostics, logging or too detailed
 reports, therefore it should be kept rather short.
 
 #### Examples
@@ -449,13 +448,13 @@ are better.
 
 ### Performance data
 
-In addition to the human readable part the output can
+In addition to the free form part the output can
 contain machine readable measurement values.
 
 In addition to the format definition earlier, the following contains
 some constaints and best practices:
 
- 1. `label` MUST consist of at least on non-space character, but can otherwise
+ 1. `label` MUST consist of at least one non-space character, but can otherwise
     contain any printable characters except for the equals sign (`=`) or single
     quotes (`'`). If it contains spaces, it must be surrounded by single quotes
  2. `value` is a numerical value, might be either an integer or a floating
@@ -488,7 +487,7 @@ some constaints and best practices:
       applicable, but the Monitoring System may not understand them correctly
       (mostly in uncommon cases), in that cases appropriate workarounds MAY be
       applied on the side of the Monitoring Plugin. Since the
-      values are not intented to be human readable normalized units are
+      values are not intented to be human readable, normalized units are
       recommended (e.g. `overall_power=14000000000W` instead of
       `overall_power=14GW`)
       4. `warn` and `crit` are the threshold values for this measurement, which may
