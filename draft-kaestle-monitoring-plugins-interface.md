@@ -450,14 +450,10 @@ are better.
 ### Performance data
 
 In addition to the human readable part the output can
-contain machine readable measurement values. These data points are separated
-from the human readable part by the "|" symbol which is in effect until the end
-of the output. The performance data then MUST consist of space (ASCII 0x20)
-separated single values, these MUST have the following format:
+contain machine readable measurement values.
 
-`[']label[']=value[UOM][;warn[;crit[;min[;max]]]]`
-
-with the following definitions:
+In addition to the format definition earlier, the following contains
+some best practices:
 
  1. `label` MUST consist of at least on non-space character, but can otherwise
     contain any printable characters except for the equals sign (`=`) or single
