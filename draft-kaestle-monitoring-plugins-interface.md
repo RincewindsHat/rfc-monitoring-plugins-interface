@@ -373,11 +373,11 @@ might be or what the symptoms are. If the test relies on numeric values, this
 might be displayed to give an user more information about the specific problem.
 It might consist of one or more lines (separated by CRLF or LF) of unicode symbols.
 Considering the age and implementation of current systems, restricting the output
-to ASCII characters is a safe choice.
+to US-ASCII characters is a safe choice.
 
 
 Although no strict guidelines for creating this part of the output can really
-be given, a developer should keep a potential user in mind. It might, for
+be given due to its free form character, a developer should keep a potential reader in mind. It might, for
 example, be OK to put the output in a single line if there are only one or two
 items of a similar type (think: multiple file systems, multiple sensors, etc.)
 are present, but not if there 10 or 100, although this might present a valid
