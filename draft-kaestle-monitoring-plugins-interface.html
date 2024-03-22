@@ -12,24 +12,24 @@ strictly implemented by different network monitoring solutions.
 Implementers and Users of network monitoring solutions, monitoring plugins and libraries can use
 this as a reference point as to how these programs interface with each other. 
     " name="description">
-<meta content="xml2rfc 3.18.2" name="generator">
+<meta content="xml2rfc 3.20.1" name="generator">
 <meta content="monitoring" name="keyword">
 <meta content="draft-kaestle-monitoring-plugins-interface-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.2
-    Python 3.11.6
-    ConfigArgParse 1.5.3
+  xml2rfc 3.20.1
+    Python 3.11.8
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.0.0
+    platformdirs 4.2.0
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 68.2.2
     six 1.16.0
-    wcwidth 0.2.10
+    wcwidth 0.2.13
 -->
 <link href="draft-kaestle-monitoring-plugins-interface.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1028,11 +1028,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">MPI</td>
-<td class="right">November 2023</td>
+<td class="right">March 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Kästle</td>
-<td class="center">Expires 27 May 2024</td>
+<td class="center">Expires 23 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1045,12 +1045,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-kaestle-monitoring-plugins-interface-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-11-24" class="published">24 November 2023</time>
+<time datetime="2024-03-22" class="published">22 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-05-27">27 May 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-23">23 September 2024</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1097,7 +1097,7 @@ this as a reference point as to how these programs interface with each other.<a 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1106,7 +1106,7 @@ this as a reference point as to how these programs interface with each other.<a 
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1233,34 +1233,48 @@ including, without claiming completeness, Icinga, Icinga2, Shinken, Naemon, Cent
 and Opsview.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">On the other side of this interface there are hundreds of individual plugins
 developed by different people in different languages for a multitude of purposes.<a href="#section-1-6" class="pilcrow">¶</a></p>
-<p id="section-1-7">Examples for these are:
- * The monitoring plugins (https://www.monitoring-plugins.org/)
- * The nagios plugins (https://nagios-plugins.org/)
- * Several monitoring plugins by Consol (https://labs.consol.de/de/nagios/)
- * Several monitoring plugins by Linuxfabrik (https://github.com/Linuxfabrik/monitoring-plugins)
- * Several monitoring plugins by Davide Madrisan (https://github.com/Linuxfabrik/monitoring-plugins)<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">This document shall serve administrator of those monitoring systems and
+<p id="section-1-7">Examples for these are:<a href="#section-1-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-8.1">
+          <p id="section-1-8.1.1">The monitoring plugins <span><a href="https://www.monitoring-plugins.org/">https://www.monitoring-plugins.org/</a></span><a href="#section-1-8.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.2">
+          <p id="section-1-8.2.1">The nagios plugins <span><a href="https://nagios-plugins.org/">https://nagios-plugins.org/</a></span><a href="#section-1-8.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.3">
+          <p id="section-1-8.3.1">Several monitoring plugins by Consol <span><a href="https://labs.consol.de/de/nagios/">https://labs.consol.de/de/nagios/</a></span><a href="#section-1-8.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.4">
+          <p id="section-1-8.4.1">Several monitoring plugins by Linuxfabrik <span><a href="https://github.com/Linuxfabrik/monitoring-plugins">https://github.com/Linuxfabrik/monitoring-plugins</a></span><a href="#section-1-8.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.5">
+          <p id="section-1-8.5.1">Several monitoring plugins by Davide Madrisan <span><a href="https://github.com/Linuxfabrik/monitoring-plugins">https://github.com/Linuxfabrik/monitoring-plugins</a></span><a href="#section-1-8.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-1-9">This document shall serve administrators of those monitoring systems and
 especially developers of these monitoring plugins
 and monitoring systems as a basis
 on how this interface should implemented, how the plugins should work and how they should behave.
 It encourages the standardization of libraries, monitoring plugins and monitoring systems,
 to reduce the cognitive load on administrators and developers, when they work with
-different implementations.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-1-9">
+different implementations.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-1-10">
 <pre>
- ┌────────────────────┐
- │ Visualisation tool ├────────────┐
- └────────────────────┘     ┌──────┴──────────┐  exec  ┌───────────────────┐
-                            │ Monitoring tool │┄┄┄┄┄┄┄┄│ Monitoring Plugin │
-                            └──────┬──────────┘        └───────────────────┘
- ┌────────────────────┐            │
- │ Notification tool  ├────────────┘
- └────────────────────┘
-</pre><a href="#section-1-9" class="pilcrow">¶</a>
++--------------------+
+| Visualisation tool +------------+
++--------------------+            |
+                                  |
+                           +-----------------+  exec  +-------------------+
+                           | Monitoring tool +--------+ Monitoring Plugin |
+                           +-----------------+        +-------------------+
++--------------------+            |
+| Notification tool  +------------+
++--------------------+
+</pre><a href="#section-1-10" class="pilcrow">¶</a>
 </div>
-<p id="section-1-10">This document aims to be as general as possible and not to assume a special
+<p id="section-1-11">This document aims to be as general as possible and not to assume a special
 implementation detail, e.g. the programming language, the install mechanism or the monitoring
-system which executes the monitoring plugin.<a href="#section-1-10" class="pilcrow">¶</a></p>
+system which executes the monitoring plugin.<a href="#section-1-11" class="pilcrow">¶</a></p>
 <div id="wording-context-and-scope">
 <section id="section-1.1">
         <h3 id="name-wording-context-and-scope">
@@ -1285,6 +1299,7 @@ as well as insights on particular components.<a href="#section-1.1.1.1-1" class=
 provide a functionality to send notifications to the system administrator
 when something goes wrong, e.g. a particular component does not respond anymore
 or a certain threshold is exceeded.<a href="#section-1.1.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.1-3">For the purpose of this document a monitoring system is just "the thing that executes a monitoring plugin".<a href="#section-1.1.1.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="monitoring-plugin">
@@ -1295,7 +1310,7 @@ or a certain threshold is exceeded.<a href="#section-1.1.1.1-2" class="pilcrow">
 <p id="section-1.1.1.2-1">A monitoring plugin is a standalone executable, which is executed by the
 monitoring systems to conduct one or multiple tests on behalf of the
 monitoring system.<a href="#section-1.1.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-1.1.1.2-2">The monitoring plugin does rely on functionality provided by the operating
+<p id="section-1.1.1.2-2">The monitoring plugin does not rely on functionality provided by the monitoring
 system and is not a builtin of the monitoring system or linked against
 certain components of the monitoring system.
 Therefore it can also be executed manually and independently of a particular
@@ -1311,6 +1326,44 @@ command line or via environment variable).<a href="#section-1.1.1.2-4" class="pi
 to execute its duty and returns the result to the Monitoring System. Part of
 the process of returning the result is the termination of the execution of the
 Monitoring Plugin itself.<a href="#section-1.1.1.2-5" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-6">The execution of a monitoring plugin is typically short lived (in the order of seconds
+or milliseconds) and, while some implementations store some state on non-volatile memory
+to be able to reason over several execution cycles, this is not considered best practice.
+A monitoring plugin can not depend on any information other that which was given by the
+calling monitoring system, since the monitoring system might execute the plugin from a
+different system in the next cycle or switch between multiple systems.<a href="#section-1.1.1.2-6" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-7">A reasonable approach to thinking about monitoring plugins is to picture a "snapshot"
+of a current state, each execution independent from the others and wholly dependent on the
+input parameters and the "thing" that is to be monitored.<a href="#section-1.1.1.2-7" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-8">This "thing" which is to be monitored is not, in principle, restricted to any specific aspect
+of IT systems, apart from the restrictions above and the general concept.
+Examples for areas which are difficult to cover whith this approach, are statistical analyses
+of time series data or event monitoring, such as log monitoring.
+However querying system, which are collecting and processing this kind of data, would be
+a valid indirection.<a href="#section-1.1.1.2-8" class="pilcrow">¶</a></p>
+<p id="section-1.1.1.2-9">A popular example for this behaviour is the extraction of bandwith usage on most switches.
+Commonly this is only exposed as counters for each network interface, one for outgoing and one
+for incoming bytes.
+The absolute value of bytes is practically useless without knowing the value which was read
+previously and the time difference between the probes.
+In this scenario, different workaround are possible, if the device itself does not provide the rate
+values:<a href="#section-1.1.1.2-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1.1.2-10.1">
+                <p id="section-1.1.1.2-10.1.1">The monitoring plugin queries the values several times during its execution cycle with a know
+ time difference between the queries, which allows rate calculation in this (typically) short time
+ frame. Nothing is know effectively about the time between execution cycles.<a href="#section-1.1.1.2-10.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1.1.2-10.2">
+                <p id="section-1.1.1.2-10.2.1">The monitoring system executes the monitoring plugin with the data and date of the last execution as parameter,
+ which allows for proper rate calculation.<a href="#section-1.1.1.2-10.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1.1.2-10.3">
+                <p id="section-1.1.1.2-10.3.1">A system queries the devices regularly for the absolute values and stores them. The monitoring
+ plugin then queries this system for the collected values (and timestamps) or directly for a statistical
+ analysis<a href="#section-1.1.1.2-10.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </section>
 </div>
 </section>
@@ -1321,7 +1374,7 @@ Monitoring Plugin itself.<a href="#section-1.1.1.2-5" class="pilcrow">¶</a></p>
 <a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
           </h4>
 <p id="section-1.1.2-1">The scope of this document is limited to the interaction of a monitoring system
-and a monitoring plugin, meaning the interface between them.<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
+and a monitoring plugin, meaning the interface connecting them.<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
 <p id="section-1.1.2-2">It does not attempt to describe the inner workings of a specific implementation
 of either monitoring system or monitoring plugin.<a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
 </section>
@@ -1345,8 +1398,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-range-expressions" class="section-name selfRef">Range expressions</a>
         </h3>
 <p id="section-2.1-1">In many cases thresholds for metrics mark a certain range of values where the
-values is considered to be good or bad if it is inside or outside. While for
-significant number of metrics a upper (e.g. load on unixoid systems) or lower
+values are considered to be good or bad depending on whether they are inside or outside of this range. For a
+significant number of metrics an upper (e.g. load on unixoid systems) or lower
 (e.g. effective throughput, free space in memory or storage) border might
 suffice, for some it does not, for example a temperature value from a
 temperature sensor should be within certain range (e.g. between 10℃ and 45℃).<a href="#section-2.1-1" class="pilcrow">¶</a></p>
@@ -1355,7 +1408,21 @@ temperature sensor should be within certain range (e.g. between 10℃ and 45℃)
 creates a problem in the performance data output, if only scalar values could be
 used. To resolve this situation the <em>Range expression</em> format was introduced,
 with the following definition:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.1-3"><code>[@][start:][end]</code><a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1-3">
+<pre>
+range-expression = [direction-switch] bounds
+
+bounds = (lower-bound / upper-bound) / lower-bound upper-bound
+
+direction-switch = "@"
+
+lower-bound = NUMERAL ":"
+
+upper-bound = NUMERAL
+
+NUMERAL = ["-"] 1*DIGIT [ "." 1*DIGIT ] ; numerical value, either integer or floating point
+</pre><a href="#section-2.1-3" class="pilcrow">¶</a>
+</div>
 <p id="section-2.1-4">where:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-2.1-5">
 <li id="section-2.1-5.1">
@@ -1624,14 +1691,48 @@ with a width of or greater than 8bit, the following mapping is used:<a href="#se
         <h3 id="name-textual-output">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-textual-output" class="section-name selfRef">Textual Output</a>
         </h3>
-<p id="section-4.2-1">The original purpose of the output on <em>stdout</em> was to provide human readable
+<p id="section-4.2-1">The textual output should consist of printable characters end of this output is marked by EOF.
+There is no length limitation per se, but it a limit of 512kiB would be reasonable and should not
+be exceeded to avoid influencing the performance of the monitoring system, also some system
+might limit the output arbitrarily.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">The original purpose of the output on <em>stdout</em> was to provide human readable
 information for the user of the Monitoring System, a way for the Monitoring
-Plugin to communicate further details on what happened. This purpose still
+Plugin to communicate further details on what happened and what the current state is. This purpose still
 exists, but was expanded with the, so called, performance data to
 allow the machine readable communication of measured values for further
-processing in the Monitoring System, e.g. for the creation of diagrams.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2-2">Therefore the further explanation is split into <em>human readable output</em> and
-<em>performance data</em>.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+processing in the Monitoring System, e.g. for the creation of diagrams.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">Therefore the further explanation is split into <em>human readable output</em> and
+<em>performance data</em>.
+The general schema is the following:<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2-4">
+<pre>
+output = human-readable-part *1( separator performance-data )
+
+separator = "|"
+
+unicode-without-separator = %x0A-7B / %x7D-10FFFF ; UTF-8 encoded unicode code point without "|"
+
+human-readable-part = *unicode-without-separator
+
+labelchar = %x0A-1f / %x21-10FFFF ; UTF-8 encoded unicode code point without " "
+
+labelstring-with-space = labelchar ( " " / labelchar ) labelchar ; no spaces at beginning or end
+
+label = 1*labelchar / "'" labelstring-with-space "'" ; if the label contains spaces, surround it with '
+
+UOM = 1*CHAR ; unit of measurement, a common unit specifier like "B" for Bytes or "s" for seconds
+
+warning-value = range-expression
+critical-value = range-expression
+min-value = NUMERAL
+max-value = NUMERAL
+
+performance-data-value = label "=" NUMERAL *1( UOM ) *1( ";" *1warning_value *1( ";" *1critical-value *1( ";" *1min-value *1( ";" max-value ))))
+
+performance-data = *performance-data-value *( " " performance-data-value )
+
+</pre><a href="#section-4.2-4" class="pilcrow">¶</a>
+</div>
 <div id="human-readable-output">
 <section id="section-4.2.1">
           <h4 id="name-human-readable-output">
@@ -1641,14 +1742,18 @@ processing in the Monitoring System, e.g. for the creation of diagrams.<a href="
 test and, in the case of problems, ideally hint what the origin of the problem
 might be or what the symptoms are. If the test relies on numeric values, this
 might be displayed to give an user more information about the specific problem.
-It might consist of one or more lines of printable symbols.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+It might consist of one or more lines (separated by CRLF or LF) of unicode symbols.
+Considering the age and implementation of current systems, restricting the output
+to US-ASCII characters is a safe choice.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.2.1-2">Although no strict guidelines for creating this part of the output can really
-be given, a developer should keep a potential user in mind. It might, for
+be given due to its free form character, a developer should keep a potential reader in mind. It might, for
 example, be OK to put the output in a single line if there are only one or two
 items of a similar type (think: multiple file systems, multiple sensors, etc.)
 are present, but not if there 10 or 100, although this might present a valid
 use case. If there are several different items exists in the output of the
 Monitoring Plugin they probably <span class="bcp14">SHOULD</span> be given their own line in the output.<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-3">The human readable part is not intented for deep diagnostics, logging or too detailed
+reports, therefore it should be kept rather short.<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
 <div id="examples-2">
 <section id="section-4.2.1.1">
             <h5 id="name-examples-3">
@@ -1688,79 +1793,76 @@ Sensor temperature exceeds thresholds ( 78°C &gt; 70°C )
 <a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-performance-data" class="section-name selfRef">Performance data</a>
           </h4>
 <p id="section-4.2.2-1">In addition to the human readable part the output can
-contain machine readable measurement values. These data points are separated
-from the human readable part by the "|" symbol which is in effect until the end
-of the output. The performance data then <span class="bcp14">MUST</span> consist of space (ASCII 0x20)
-separated single values, these <span class="bcp14">MUST</span> have the following format:<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2.2-2"><code>[']label[']=value[UOM][;warn[;crit[;min[;max]]]]</code><a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.2.2-3">with the following definitions:<a href="#section-4.2.2-3" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.2.2-4">
-<li id="section-4.2.2-4.1">
-              <p id="section-4.2.2-4.1.1"><code>label</code> <span class="bcp14">MUST</span> consist of at least on non-space character, but can otherwise
-    contain any printable characters except for the equals sign (<code>=</code>) or single
-    quotes (<code>'</code>). If it contains spaces, it must be surrounded by single quotes<a href="#section-4.2.2-4.1.1" class="pilcrow">¶</a></p>
+contain machine readable measurement values.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-2">In addition to the format definition earlier, the following contains
+some best practices:<a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-3">
+<li id="section-4.2.2-3.1">
+              <p id="section-4.2.2-3.1.1"><code>label</code> <span class="bcp14">MUST</span> consist of at least on non-space character, but can otherwise
+contain any printable characters except for the equals sign (<code>=</code>) or single
+quotes (<code>'</code>). If it contains spaces, it must be surrounded by single quotes<a href="#section-4.2.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.2.2-4.2">
-              <p id="section-4.2.2-4.2.1"><code>value</code> is a numerical value, might be either an integer or a floating
-    point number. Using floating point numbers if the value is really discreet
-    <span class="bcp14">SHOULD</span> be avoided. The representation of a floating point number
-    <span class="bcp14">SHOULD NOT</span> use the "scientific notation" (e.g. <code>6.02e23</code> or <code>-3e-45</code>),
-    since some systems might not be able to parse them correctly. Values
-    with a base other then 10 <span class="bcp14">SHOULD</span> be avoided (see below for more information
-    on <code>Byte</code> values).<a href="#section-4.2.2-4.2.1" class="pilcrow">¶</a></p>
+            <li id="section-4.2.2-3.2">
+              <p id="section-4.2.2-3.2.1"><code>value</code> is a numerical value, might be either an integer or a floating
+point number. Using floating point numbers if the value is really discreet
+<span class="bcp14">SHOULD</span> be avoided. The representation of a floating point number
+<span class="bcp14">SHOULD NOT</span> use the "scientific notation" (e.g. <code>6.02e23</code> or <code>-3e-45</code>),
+since some systems might not be able to parse them correctly. Values
+with a base other then 10 <span class="bcp14">SHOULD</span> be avoided (see below for more information
+on <code>Byte</code> values).<a href="#section-4.2.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.2.2-4.3">
-              <p id="section-4.2.2-4.3.1"><code>UOM</code> is the <em>Unit of measurement</em> (e.g. "B" for <em>Bytes</em>, "s" for seconds)
- which gives more context to the Monitoring System.<a href="#section-4.2.2-4.3.1" class="pilcrow">¶</a></p>
+            <li id="section-4.2.2-3.3">
+              <p id="section-4.2.2-3.3.1"><code>UOM</code> is the <em>Unit of measurement</em> (e.g. "B" for <em>Bytes</em>, "s" for seconds)
+ which gives more context to the Monitoring System.<a href="#section-4.2.2-3.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.2.2-4.3.2.1">
-                  <p id="section-4.2.2-4.3.2.1.1">The following constraints <span class="bcp14">MUST</span> be applied:<a href="#section-4.2.2-4.3.2.1.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.2.2-4.3.2.1.2">
-<li id="section-4.2.2-4.3.2.1.2.1">
-                      <p id="section-4.2.2-4.3.2.1.2.1.1">An <code>UOM</code> of <code>%</code> <span class="bcp14">MUST</span> be used for percentage values<a href="#section-4.2.2-4.3.2.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.2.2-3.3.2.1">
+                  <p id="section-4.2.2-3.3.2.1.1">The following constraints <span class="bcp14">MUST</span> be applied:<a href="#section-4.2.2-3.3.2.1.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-3.3.2.1.2">
+<li id="section-4.2.2-3.3.2.1.2.1">
+                      <p id="section-4.2.2-3.3.2.1.2.1.1">An <code>UOM</code> of <code>%</code> <span class="bcp14">MUST</span> be used for percentage values<a href="#section-4.2.2-3.3.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-4.2.2-4.3.2.1.2.2">
-                      <p id="section-4.2.2-4.3.2.1.2.2.1">An <code>UOM</code> of <code>c</code> <span class="bcp14">MUST</span> be used for continuous counters (commonly used
-for the sum of bytes transmitted on an interface)<a href="#section-4.2.2-4.3.2.1.2.2.1" class="pilcrow">¶</a></p>
+                    <li id="section-4.2.2-3.3.2.1.2.2">
+                      <p id="section-4.2.2-3.3.2.1.2.2.1">An <code>UOM</code> of <code>c</code> <span class="bcp14">MUST</span> be used for continuous counters (commonly used
+for the sum of bytes transmitted on an interface)<a href="#section-4.2.2-3.3.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   </ol>
 </li>
-                <li class="normal" id="section-4.2.2-4.3.2.2">
-                  <p id="section-4.2.2-4.3.2.2.1">The following recommendations <span class="bcp14">SHOULD</span> be applied:<a href="#section-4.2.2-4.3.2.2.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.2.2-4.3.2.2.2">
-<li id="section-4.2.2-4.3.2.2.2.1">
-                      <p id="section-4.2.2-4.3.2.2.2.1.1">The <code>UOM</code> for <code>Byte</code> values is <code>B</code> and although many systems do
+                <li class="normal" id="section-4.2.2-3.3.2.2">
+                  <p id="section-4.2.2-3.3.2.2.1">The following recommendations <span class="bcp14">SHOULD</span> be applied:<a href="#section-4.2.2-3.3.2.2.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2.2-3.3.2.2.2">
+<li id="section-4.2.2-3.3.2.2.2.1">
+                      <p id="section-4.2.2-3.3.2.2.2.1.1">The <code>UOM</code> for <code>Byte</code> values is <code>B</code> and although many systems do
 understand units like <code>KB</code>,<code>KiB</code>, <code>MB</code>, <code>GB</code>, <code>TB</code> they <span class="bcp14">SHOULD</span> be
 avoided, at the least to avoid the ugly hassle about people
 misinterpreting the <em>base10</em> values as <em>base2</em> values and the other way
-round. This is also a prime example where floating point number <span class="bcp14">SHOULD NOT</span> be used, since there are obviously only integer numbers included.<a href="#section-4.2.2-4.3.2.2.2.1.1" class="pilcrow">¶</a></p>
+round. This is also a prime example where floating point number <span class="bcp14">SHOULD NOT</span> be used, since there are obviously only integer numbers included.<a href="#section-4.2.2-3.3.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-4.2.2-4.3.2.2.2.2">
-                      <p id="section-4.2.2-4.3.2.2.2.2.1">The <code>UOM</code> for time is <code>s</code>, meaning seconds, SI-Prefixes (e.g. <code>ms</code> for
-milli seconds) are allowed if necessary or useful.<a href="#section-4.2.2-4.3.2.2.2.2.1" class="pilcrow">¶</a></p>
+                    <li id="section-4.2.2-3.3.2.2.2.2">
+                      <p id="section-4.2.2-3.3.2.2.2.2.1">The <code>UOM</code> for time is <code>s</code>, meaning seconds, SI-Prefixes (e.g. <code>ms</code> for
+milli seconds) are allowed if necessary or useful.<a href="#section-4.2.2-3.3.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-4.2.2-4.3.2.2.2.3">
-                      <p id="section-4.2.2-4.3.2.2.2.3.1">In general, SI units and SI prefixes <span class="bcp14">MAY</span> be used as <code>UOM</code> if
+                    <li id="section-4.2.2-3.3.2.2.2.3">
+                      <p id="section-4.2.2-3.3.2.2.2.3.1">In general, SI units and SI prefixes <span class="bcp14">MAY</span> be used as <code>UOM</code> if
 applicable, but the Monitoring System may not understand them correctly
 (mostly in uncommon cases), in that cases appropriate workarounds <span class="bcp14">MAY</span> be
 applied on the side of the Monitoring Plugin. Since the
 values are not intented to be human readable normalized units are
 recommended (e.g. <code>overall_power=14000000000W</code> instead of
-<code>overall_power=14GW</code>)<a href="#section-4.2.2-4.3.2.2.2.3.1" class="pilcrow">¶</a></p>
+<code>overall_power=14GW</code>)<a href="#section-4.2.2-3.3.2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-4.2.2-4.3.2.2.2.4">
-                      <p id="section-4.2.2-4.3.2.2.2.4.1"><code>warn</code> and <code>crit</code> are the threshold values for this measurement, which may
+                    <li id="section-4.2.2-3.3.2.2.2.4">
+                      <p id="section-4.2.2-3.3.2.2.2.4.1"><code>warn</code> and <code>crit</code> are the threshold values for this measurement, which may
 have been given by the user as input, may be hardcoded in the Monitoring
 Plugin or may be retrieved from a file or a device or somewhere else
 during the execution of the Monitoring Plugin. The unit used <span class="bcp14">MUST</span> be
 the same as for <em>value</em>. These values are not simple numbers, but
-range expressions (<a href="#def_range_expression" class="auto internal xref">Section 2.1</a>).<a href="#section-4.2.2-4.3.2.2.2.4.1" class="pilcrow">¶</a></p>
+range expressions (<a href="#def_range_expression" class="auto internal xref">Section 2.1</a>).<a href="#section-4.2.2-3.3.2.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-                    <li id="section-4.2.2-4.3.2.2.2.5">
-                      <p id="section-4.2.2-4.3.2.2.2.5.1"><code>min</code> and <code>max</code> are the minimal respectively the maximal value the
+                    <li id="section-4.2.2-3.3.2.2.2.5">
+                      <p id="section-4.2.2-3.3.2.2.2.5.1"><code>min</code> and <code>max</code> are the minimal respectively the maximal value the
 <code>value</code> could possibly be. The unit <span class="bcp14">MUST</span> be the same as for <code>value</code>.
 These values can be omitted, if the <code>value</code> is a percentage value,
-since <code>min</code> and <code>max</code> are always <code>0</code> and <code>100</code> in this case.<a href="#section-4.2.2-4.3.2.2.2.5.1" class="pilcrow">¶</a></p>
+since <code>min</code> and <code>max</code> are always <code>0</code> and <code>100</code> in this case.<a href="#section-4.2.2-3.3.2.2.2.5.1" class="pilcrow">¶</a></p>
 </li>
                   </ol>
 </li>

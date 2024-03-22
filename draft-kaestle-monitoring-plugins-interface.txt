@@ -4,8 +4,8 @@
 
 Network Working Group                                          L. Kästle
 Internet-Draft                            The Monitoring Plugins Project
-Intended status: Informational                          24 November 2023
-Expires: 27 May 2024
+Intended status: Informational                             22 March 2024
+Expires: 23 September 2024
 
 
                     The Monitoring Plugins Interface
@@ -45,11 +45,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 May 2024.
+   This Internet-Draft will expire on 23 September 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -120,15 +120,22 @@ Table of Contents
    plugins developed by different people in different languages for a
    multitude of purposes.
 
-   Examples for these are: * The monitoring plugins
-   (https://www.monitoring-plugins.org/) * The nagios plugins
-   (https://nagios-plugins.org/) * Several monitoring plugins by Consol
-   (https://labs.consol.de/de/nagios/) * Several monitoring plugins by
-   Linuxfabrik (https://github.com/Linuxfabrik/monitoring-plugins) *
-   Several monitoring plugins by Davide Madrisan
-   (https://github.com/Linuxfabrik/monitoring-plugins)
+   Examples for these are:
 
-   This document shall serve administrator of those monitoring systems
+   *  The monitoring plugins https://www.monitoring-plugins.org/
+
+   *  The nagios plugins https://nagios-plugins.org/
+
+   *  Several monitoring plugins by Consol https://labs.consol.de/de/
+      nagios/
+
+   *  Several monitoring plugins by Linuxfabrik
+      https://github.com/Linuxfabrik/monitoring-plugins
+
+   *  Several monitoring plugins by Davide Madrisan
+      https://github.com/Linuxfabrik/monitoring-plugins
+
+   This document shall serve administrators of those monitoring systems
    and especially developers of these monitoring plugins and monitoring
    systems as a basis on how this interface should implemented, how the
    plugins should work and how they should behave.  It encourages the
@@ -136,14 +143,16 @@ Table of Contents
    systems, to reduce the cognitive load on administrators and
    developers, when they work with different implementations.
 
- ┌────────────────────┐
- │ Visualisation tool ├────────────┐
- └────────────────────┘     ┌──────┴──────────┐  exec  ┌───────────────────┐
-                            │ Monitoring tool │┄┄┄┄┄┄┄┄│ Monitoring Plugin │
-                            └──────┬──────────┘        └───────────────────┘
- ┌────────────────────┐            │
- │ Notification tool  ├────────────┘
- └────────────────────┘
++--------------------+
+| Visualisation tool +------------+
++--------------------+            |
+                                  |
+                           +-----------------+  exec  +-------------------+
+                           | Monitoring tool +--------+ Monitoring Plugin |
+                           +-----------------+        +-------------------+
++--------------------+            |
+| Notification tool  +------------+
++--------------------+
 
    This document aims to be as general as possible and not to assume a
    special implementation detail, e.g. the programming language, the
@@ -168,14 +177,17 @@ Table of Contents
    component does not respond anymore or a certain threshold is
    exceeded.
 
+   For the purpose of this document a monitoring system is just "the
+   thing that executes a monitoring plugin".
+
 1.1.1.2.  Monitoring plugin
 
    A monitoring plugin is a standalone executable, which is executed by
    the monitoring systems to conduct one or multiple tests on behalf of
    the monitoring system.
 
-   The monitoring plugin does rely on functionality provided by the
-   operating system and is not a builtin of the monitoring system or
+   The monitoring plugin does not rely on functionality provided by the
+   monitoring system and is not a builtin of the monitoring system or
    linked against certain components of the monitoring system.
    Therefore it can also be executed manually and independently of a
    particular monitoring system.
@@ -195,11 +207,56 @@ Table of Contents
    returning the result is the termination of the execution of the
    Monitoring Plugin itself.
 
+   The execution of a monitoring plugin is typically short lived (in the
+   order of seconds or milliseconds) and, while some implementations
+   store some state on non-volatile memory to be able to reason over
+   several execution cycles, this is not considered best practice.  A
+   monitoring plugin can not depend on any information other that which
+   was given by the calling monitoring system, since the monitoring
+   system might execute the plugin from a different system in the next
+   cycle or switch between multiple systems.
+
+   A reasonable approach to thinking about monitoring plugins is to
+   picture a "snapshot" of a current state, each execution independent
+   from the others and wholly dependent on the input parameters and the
+   "thing" that is to be monitored.
+
+   This "thing" which is to be monitored is not, in principle,
+   restricted to any specific aspect of IT systems, apart from the
+   restrictions above and the general concept.  Examples for areas which
+   are difficult to cover whith this approach, are statistical analyses
+   of time series data or event monitoring, such as log monitoring.
+   However querying system, which are collecting and processing this
+   kind of data, would be a valid indirection.
+
+   A popular example for this behaviour is the extraction of bandwith
+   usage on most switches.  Commonly this is only exposed as counters
+   for each network interface, one for outgoing and one for incoming
+   bytes.  The absolute value of bytes is practically useless without
+   knowing the value which was read previously and the time difference
+   between the probes.  In this scenario, different workaround are
+   possible, if the device itself does not provide the rate values:
+
+   *  The monitoring plugin queries the values several times during its
+      execution cycle with a know time difference between the queries,
+      which allows rate calculation in this (typically) short time
+      frame.  Nothing is know effectively about the time between
+      execution cycles.
+
+   *  The monitoring system executes the monitoring plugin with the data
+      and date of the last execution as parameter, which allows for
+      proper rate calculation.
+
+   *  A system queries the devices regularly for the absolute values and
+      stores them.  The monitoring plugin then queries this system for
+      the collected values (and timestamps) or directly for a
+      statistical analysis
+
 1.1.2.  Scope
 
    The scope of this document is limited to the interaction of a
    monitoring system and a monitoring plugin, meaning the interface
-   between them.
+   connecting them.
 
    It does not attempt to describe the inner workings of a specific
    implementation of either monitoring system or monitoring plugin.
@@ -215,12 +272,13 @@ Table of Contents
 2.1.  Range expressions
 
    In many cases thresholds for metrics mark a certain range of values
-   where the values is considered to be good or bad if it is inside or
-   outside.  While for significant number of metrics a upper (e.g. load
-   on unixoid systems) or lower (e.g. effective throughput, free space
-   in memory or storage) border might suffice, for some it does not, for
-   example a temperature value from a temperature sensor should be
-   within certain range (e.g. between 10℃ and 45℃).
+   where the values are considered to be good or bad depending on
+   whether they are inside or outside of this range.  For a significant
+   number of metrics an upper (e.g. load on unixoid systems) or lower
+   (e.g. effective throughput, free space in memory or storage) border
+   might suffice, for some it does not, for example a temperature value
+   from a temperature sensor should be within certain range (e.g.
+   between 10℃ and 45℃).
 
    Regarding input parameters this might be handled with options like --
    critical-upper-temperature and --critical-lower-temperature, but this
@@ -228,7 +286,17 @@ Table of Contents
    values could be used.  To resolve this situation the _Range
    expression_ format was introduced, with the following definition:
 
-   [@][start:][end]
+range-expression = [direction-switch] bounds
+
+bounds = (lower-bound / upper-bound) / lower-bound upper-bound
+
+direction-switch = "@"
+
+lower-bound = NUMERAL ":"
+
+upper-bound = NUMERAL
+
+NUMERAL = ["-"] 1*DIGIT [ "." 1*DIGIT ] ; numerical value, either integer or floating point
 
    where:
 
@@ -589,16 +657,47 @@ Table of Contents
 
 4.2.  Textual Output
 
+   The textual output should consist of printable characters end of this
+   output is marked by EOF.  There is no length limitation per se, but
+   it a limit of 512kiB would be reasonable and should not be exceeded
+   to avoid influencing the performance of the monitoring system, also
+   some system might limit the output arbitrarily.
+
    The original purpose of the output on _stdout_ was to provide human
    readable information for the user of the Monitoring System, a way for
-   the Monitoring Plugin to communicate further details on what
-   happened.  This purpose still exists, but was expanded with the, so
-   called, performance data to allow the machine readable communication
-   of measured values for further processing in the Monitoring System,
-   e.g. for the creation of diagrams.
+   the Monitoring Plugin to communicate further details on what happened
+   and what the current state is.  This purpose still exists, but was
+   expanded with the, so called, performance data to allow the machine
+   readable communication of measured values for further processing in
+   the Monitoring System, e.g. for the creation of diagrams.
 
    Therefore the further explanation is split into _human readable
-   output_ and _performance data_.
+   output_ and _performance data_. The general schema is the following:
+
+output = human-readable-part *1( separator performance-data )
+
+separator = "|"
+
+unicode-without-separator = %x0A-7B / %x7D-10FFFF ; UTF-8 encoded unicode code point without "|"
+
+human-readable-part = *unicode-without-separator
+
+labelchar = %x0A-1f / %x21-10FFFF ; UTF-8 encoded unicode code point without " "
+
+labelstring-with-space = labelchar ( " " / labelchar ) labelchar ; no spaces at beginning or end
+
+label = 1*labelchar / "'" labelstring-with-space "'" ; if the label contains spaces, surround it with '
+
+UOM = 1*CHAR ; unit of measurement, a common unit specifier like "B" for Bytes or "s" for seconds
+
+warning-value = range-expression
+critical-value = range-expression
+min-value = NUMERAL
+max-value = NUMERAL
+
+performance-data-value = label "=" NUMERAL *1( UOM ) *1( ";" *1warning_value *1( ";" *1critical-value *1( ";" *1min-value *1( ";" max-value ))))
+
+performance-data = *performance-data-value *( " " performance-data-value )
 
 4.2.1.  Human readable output
 
@@ -607,17 +706,22 @@ Table of Contents
    origin of the problem might be or what the symptoms are.  If the test
    relies on numeric values, this might be displayed to give an user
    more information about the specific problem.  It might consist of one
-   or more lines of printable symbols.
+   or more lines (separated by CRLF or LF) of unicode symbols.
+   Considering the age and implementation of current systems,
+   restricting the output to US-ASCII characters is a safe choice.
 
    Although no strict guidelines for creating this part of the output
-   can really be given, a developer should keep a potential user in
-   mind.  It might, for example, be OK to put the output in a single
-   line if there are only one or two items of a similar type (think:
-   multiple file systems, multiple sensors, etc.) are present, but not
-   if there 10 or 100, although this might present a valid use case.  If
-   there are several different items exists in the output of the
-   Monitoring Plugin they probably SHOULD be given their own line in the
-   output.
+   can really be given due to its free form character, a developer
+   should keep a potential reader in mind.  It might, for example, be OK
+   to put the output in a single line if there are only one or two items
+   of a similar type (think: multiple file systems, multiple sensors,
+   etc.) are present, but not if there 10 or 100, although this might
+   present a valid use case.  If there are several different items
+   exists in the output of the Monitoring Plugin they probably SHOULD be
+   given their own line in the output.
+
+   The human readable part is not intented for deep diagnostics, logging
+   or too detailed reports, therefore it should be kept rather short.
 
 4.2.1.1.  Examples
 
@@ -644,15 +748,10 @@ Table of Contents
 4.2.2.  Performance data
 
    In addition to the human readable part the output can contain machine
-   readable measurement values.  These data points are separated from
-   the human readable part by the "|" symbol which is in effect until
-   the end of the output.  The performance data then MUST consist of
-   space (ASCII 0x20) separated single values, these MUST have the
-   following format:
+   readable measurement values.
 
-   [']label[']=value[UOM][;warn[;crit[;min[;max]]]]
-
-   with the following definitions:
+   In addition to the format definition earlier, the following contains
+   some best practices:
 
    1.  label MUST consist of at least on non-space character, but can
        otherwise contain any printable characters except for the equals
