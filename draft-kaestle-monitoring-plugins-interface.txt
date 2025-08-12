@@ -4,8 +4,8 @@
 
 Network Working Group                                          L. Kästle
 Internet-Draft                            The Monitoring Plugins Project
-Intended status: Informational                             22 March 2024
-Expires: 23 September 2024
+Intended status: Informational                            12 August 2025
+Expires: 13 February 2026
 
 
                     The Monitoring Plugins Interface
@@ -45,11 +45,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 September 2024.
+   This Internet-Draft will expire on 13 February 2026.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -767,7 +767,7 @@ performance-data = *performance-data-value *( " " performance-data-value )
        parse them correctly.  Values with a base other then 10 SHOULD be
        avoided (see below for more information on Byte values).
 
-   3.  UOM is the _Unit of measurement_ (e.g.  "B" for _Bytes_, "s" for
+   3.  UOM is the _Unit of measurement_ (e.g. "B" for _Bytes_, "s" for
        seconds) which gives more context to the Monitoring System.
 
        *  The following constraints MUST be applied:
